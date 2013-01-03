@@ -1,3 +1,6 @@
+call pathogen#infect()
+filetype plugin indent on
+
 syn on
 set number
 highlight LineNr ctermfg=darkgrey
@@ -12,11 +15,37 @@ set shiftwidth=4
 set expandtab
 
 set noswapfile
+
+set encoding=utf-8
+set scrolloff=3
+set visualbell
+set cursorline
+set ttyfast
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+set showcmd
+
+nnoremap j gj
+nnoremap k gk
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+
+let mapleader = ","
+nnoremap <leader><leader> :NERDTree<cr>
+
+set list       
+set listchars=tab:▸\ ,eol:¬
  
 hi NonText ctermfg=4
 hi VertSplit term=bold,reverse cterm=reverse gui=bold,reverse ctermfg=0 ctermbg=4
 hi StatusLineNC term=underline,reverse cterm=underline,reverse gui=bold,reverse ctermfg=0 ctermbg=4
-hi StatusLine term=bold cterm=bold gui=bold ctermfg=black ctermbg=4
+hi StatusLine term=bold cterm=bold gui=bold ctermfg=grey ctermbg=4
 " set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 set statusline=%F       "Full path
 " set statusline+=%t       "tail of the filename
