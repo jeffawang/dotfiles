@@ -1,0 +1,16 @@
+-- Management Hierarchy in SQL form.
+
+SELECT IFNULL(u.type,"User") as type, u.login as user_login, a.amount as approval_limit, m1.login as manager_1, a1.amount as manager_1_approval_limit, m2.login as manager_2, a2.amount as manager_2_approval_limit, m3.login as manager_3, a3.amount as manager_3_approval_limit, m4.login as manager_4, a4.amount as manager_4_approval_limit, m5.login as manager_5, a5.amount as manager_5_approval_limit
+FROM `users` u 
+LEFT JOIN (SELECT id, amount FROM `approval_limits`) a on u.approval_limit_id=a.id
+LEFT JOIN (SELECT id, login, manager_id, approval_limit_id FROM `users`) m1 on u.manager_id=m1.id
+LEFT JOIN (SELECT id, amount FROM `approval_limits`) a1 on m1.approval_limit_id=a1.id
+LEFT JOIN (SELECT id, login, manager_id, approval_limit_id from `users`) m2 on m1.manager_id=m2.id
+LEFT JOIN (SELECT id, amount FROM `approval_limits`) a2 on m2.approval_limit_id=a2.id
+LEFT JOIN (SELECT id, login, manager_id, approval_limit_id from `users`) m3 on m2.manager_id=m3.id
+LEFT JOIN (SELECT id, amount FROM `approval_limits`) a3 on m3.approval_limit_id=a3.id
+LEFT JOIN (SELECT id, login, manager_id, approval_limit_id from `users`) m4 on m3.manager_id=m4.id
+LEFT JOIN (SELECT id, amount FROM `approval_limits`) a4 on m4.approval_limit_id=a4.id
+LEFT JOIN (SELECT id, login, manager_id, approval_limit_id from `users`) m5 on m4.manager_id=m5.id
+LEFT JOIN (SELECT id, amount FROM `approval_limits`) a5 on m5.approval_limit_id=a5.id
+WHERE u.login !="" AND u.id > 1 AND u.type is null

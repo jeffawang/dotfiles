@@ -1,0 +1,5 @@
+grep -w
+grep -x
+watch
+rsync
+pstree

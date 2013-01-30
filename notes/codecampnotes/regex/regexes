@@ -1,0 +1,31 @@
+|                   'or'...
+[aeiou]             any vowel
+[^aeiou]            any non-vowel
+[a-f]               any character from a-f (lowercase)
+[a-zA-Z0-9_]        any character from a-z A-Z 0-9 or _
+\w                  any word character (see above)
+[\w-[upmj]]         any word not including upmj (set subtraction)
+\W                  anything other than a word character
+\w+                 any word character 1 or more times.
+\w{3}               any word character, 3 times in a row.
+\b                  boundary between word character and nonword char
+\b\w{3}             any first word character
+\b\w{3}\b           any 3 letter word
+\b\w{3,5}\b         any word from 3 to 5 wordchars long.
+\b\w{4,}\b          any word 4 or more wordchars long.
+haha-[\w\W-[a-f-]]  a dash following haha
+                    set substraction (.NET exclusive)
+                    a dash that means range
+                    a dash that means the character '-'
+b.*d                a 'b', with all characters until a d (greedy)
+b.*d?               a 'b', with all characters until a d (not greedy)
+Mr|Miss|Mrs|Ms      all titles, but catches Mr before Mrs
+Mrs|Miss|Mr|Ms      all titles, does it correctly.
+(Mrs|Miss|Mr|Ms)                        returns the matches in a group.
+(Mrs|Miss|Mr|Ms) (\w*) (\w*)            puts them in groups (groups 1,2,3)
+(?<title>Mrs|Miss|Mr|Ms) (\w*) (\w*)    puts them in groups (groups 1,2,title)
+industr(?:y|ies)                        Match (but don't capture).
+(1[ -])?\(\d{3}\)[ -]?\d{3}[ -]?\d{4}   phone numbers...
+(Windows )(?=NT|2000|XP|Vista|7|8)      all the windows versions.
+\b(?=\w{7}\b)(?=\w{0,4}cat\w*)(\w{0,4}fun\w*)   7 characters long, contains the word 'fun' or the word 'cat'
+

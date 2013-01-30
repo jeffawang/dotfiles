@@ -1,0 +1,64 @@
+Applicative Programming
+-refactoring to Monads
+-from Monads to Applicative Functors
+-traverse/map/reduce
+
+Example, factorial for job interview.
+
+String countryName
+
+monad laws
+
+unit laws: both 
+M[X] => M[M[X]] => M[X] 
+(Flattening.)
+
+functor List[_]
+unit    u:X => List[X]
+        u(x) = List(x)
+flatten m:List[List[X]]=>List[X]
+((1,2),(3,4)) => (1,2,3,4)
+
+Option is a Monad
+Set is a Monad
+functor Set[_]
+unit    u:X => Set[X]
+        u(x) = Set(x)
+flatten m:Set[Set[X]]=>Set[X] (Set(1,2),Set(2,5)).flatten == Set(1,2,5)
+
+Exception is a Monad
+    trait Ex[T] { def apply();  }
+    
+    case class Ok[T] (value: T) extends Ex[T] {
+        def apply = value }
+    def class Oh[T](x: Exception) extends Ex[T] {
+        def apply = throw x
+    }
+
+Env as a Monad
+type Env = Map[String, Int]
+trait Dependent[X] extends (Env => X) {
+    def map[A,B](f: A=> B) = 
+      (env: Env[A]) => env andThen f
+    def u[A](a: A) = (env: Env) => a
+    def m[A] (doubleDependent: Env[Env[X]]) = 
+      (env:Env) => doubleDependent(env)(env)
+}
+
+Using Monad to find friends
+fb.friendsOf(user: String): Option[Set[String]]
+...
+fb.friendsOf("Vlad") match {
+    case None   => println("something's wrong on the internest")
+    case Some(ff)   => { println("These are my freinds:");
+                         for (f <- ff........
+
+
+for (f  <- fb.friendsOf("vlad");
+     fof<- fb.friendsOf(f)
+    ) println(" - " + fof)
+
+Option[Set[Option[Set[String]]]]
+How do we flatten this?
+
+

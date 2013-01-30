@@ -1,0 +1,38 @@
+Learn to Love Lambdas
+by Jeremy Clark
+www.jeremybytes.com
+
+1. Parameter(s)
+2. => "goes to" operator
+3. Expression or Statement(s)
+
+Anonymous Delegate
+
+2 different types of lambdas
+
+Expression Lambda
+  (Person p) => p.FirstName == "John"
+
+Statement Lambda
+  Perform some kind of action, but don't return a value.
+  (object sender, EventArgs e) =>
+   {
+       ListBox.ItemsSorce = e.Result;
+       Console.WriteLine("Hello");
+   }
+
+Variations
+	Optional Param Types (Parameter Type Inference)
+	 (sender, e) => {
+	     ListBox.ItemSource = e.Result; }
+	
+	Optional Parens for Single Parameter
+	e => {Console.Write(e.ToString()); }
+	
+	Optional Braces for Single Expressions
+	p => p.Name == "John"
+	
+	Empty Parens for No Parameter
+	() => { Console.Write("John"); }
+
+

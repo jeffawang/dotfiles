@@ -1,0 +1,32 @@
+SELECT c.id as customer_id, c.supplier_id, c.company_name FROM `customers` c WHERE c.`instance_url` LIKE "%armstrong%" AND c.`enterprise_supplier_id`=67;
+SELECT s.id as supplier_id, s.name as supplier_name, s.primary_contact_id as 'supplier_contact_id', s.owner_id FROM `suppliers` s WHERE s.id=1134;
+SELECT u.id, u.email, u.contact_id FROM `users` u WHERE u.`id` = 1131;
+
+SELECT c.id as customer_id, c.supplier_id, s.id as 'supplier_id',u.id as 'user_id',
+c.company_name, s.name as 'supplier_name', u.email as 'csn_user_email',
+s.primary_contact_id as 'supplier_contact_id', u.contact_id as 'user_contact_id', c.primary_contact_id as 'customer_contact_id'
+FROM `customers` c
+LEFT JOIN `suppliers` s ON c.supplier_id = s.id
+LEFT JOIN `users` u ON u.`id` = s.`owner_id`
+WHERE c.`instance_url` LIKE "%armstrong%" AND c.`enterprise_supplier_id`=67;
+
+SELECT c.id as customer_id, s.id as 'supplier_id',u.id as 'user_id',
+c.company_name, s.name as 'supplier_name', u.email as 'csn_user_email',
+s.primary_contact_id as 'supplier_contact_id', u.contact_id as 'user_contact_id', c.primary_contact_id as 'customer_contact_id'        
+FROM `customers` c
+LEFT JOIN `suppliers` s ON c.supplier_id = s.id
+LEFT JOIN `users` u ON u.`id` = s.`owner_id`
+WHERE c.`instance_url` LIKE "%armstrong%" AND c.`enterprise_supplier_id`=67;
+
+SELECT c.id as customer_id, s.id as 'supplier_id',u.id as 'user_id',i.id as 'invitation_id',
+c.company_name, s.name as 'supplier_name', u.email as 'csn_user_email',
+s.primary_contact_id as 'supplier_contact_id', u.contact_id as 'user_contact_id', c.primary_contact_id as 'customer_contact_id',
+s.status as 'supplier_status', m1.id as 'merge_id', m2.id as 'target_merge_id'
+
+FROM `customers` c
+LEFT JOIN `suppliers` s ON c.supplier_id = s.id
+LEFT JOIN `users` u ON u.`id` = s.`owner_id`
+LEFT JOIN `supplier_merges` m1 on s.`id`=m1.supplier_id
+LEFT JOIN `supplier_merges` m2 on s.`id`=m2.target_supplier_id
+LEFT JOIN `invitations` i on i.email = u.email
+WHERE c.`instance_url` LIKE "%armstrong%" AND c.`enterprise_supplier_id`=67;

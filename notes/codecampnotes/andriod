@@ -1,0 +1,35 @@
+Android SDK.  Eclipse/Java
+
+Activity...
+LoginViewController
+
+relative layouts.
+
+dip.
+relative unit of measurement whereby 
+
+Text fields
+<LinearLayout...>
+    <EditText ...../>
+    <Buttom ... />
+</LinearLayout>
+
+OnCreate called when application is launched.
+
+initButton();
+
+private void initButton() {
+    Button loginBtn = (Button) findViewById(R.id.LOGIN_BTN);
+    loginBtn.setOnClickListener(loginBtnListener);
+}
+
+private OnClickListener loginBtnListener = new OnClickListener() {
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        Log.v("","login button's clicked");
+        EditText domainInput = (EditText) findViewById(R.id.DOMAIN_INPUT);
+        EditText domainInput = (EditText) findViewById(R.id.USER_INPUT);
+        EditText passwordInput = (EditText) findViewById(R.id.PASSWORD_INPUT);
+    }
+}

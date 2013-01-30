@@ -1,0 +1,98 @@
+REGEX
+Freaking voodoo.  Magic Hieroglyphics.  Fishing with nets.
+Create a regex string, apply it, typically using a method.
+Search one character a time, not going back.
+	Tools:
+	RegexDesigner.NET
+	Expresso
+Python:
+    r"hello world!"
+    escape sequences are NOT processed.
+    r"c:\Docs\Source\a.txt" // rather than
+    "c:\\Docs\\Source\\a.txt"
+C#, .NET:
+...
+Ruby:
+...
+
+Greed.
+
+Engine types.
+    NFA(non-deterministic finite automa)
+        regex directed
+        perl java .net php python ruby emacs tcl
+    dfa (deterministic finite automa)
+        text directed
+        awk egrep flex lex mysql
+
+
+
+IsMatch
+Match
+Matches
+Replace
+Split
+
+	meta characters
+        |       'or'
+        []      group of character
+        \w      any word.
+        \W      opposite of above
+        +       one or more times.
+        {}      x times.
+        ^       (inside [])     "Not" the contents of the []
+                (outside[], a)     begins with.
+        $       ends with (after regex)    
+        \s      whitespace
+        \S      non-whitespace 
+        \b      word boundary
+        \B      non-wordboundary
+        *       0 or more
+        ?       0 or 1
+        (?=...) Positive Lookahead
+        (?!...) Negative lookahead
+        (?<=...)Positive lookbehind
+        (?<!...)Negative lookbehind
+        ()      grouping
+        
+
+	match
+	groups
+
+        title, firstname, lastname
+        Named capture....
+        Python, Perl
+            (?P<Title>Mrs|Mr|Miss)
+        Default: match and capture
+        industr(y|ies)
+        industr(?:y|ies)
+
+
+	options
+        Function                inline character.
+        IgnoreCase              i
+        ExplicitCapture         n
+        Compiled                n/a
+        IgnorePatternWhitespace x
+	compilation
+
+	testing
+	design
+	tips.
+
+
+Casting your net wisely
+Example: email addresses. Make sure it works for the real world, not just for the specs.
+
+gram|gr or gr|gram          1st is better.
+com|net|tv or net|com|tv    both okay, performance depends on which com or net appears more.
+. or \.                     escape real dots.
+compile regex to a separate dll.
+choose what to allow and fail depending on business needs, not specs.
+write a list of passing and failing tests first.
+test heavily both pass and fails.
+
+@-quote your strings.
+coomment and document.
+use named capture for documentation.
+favor readability over efficiency where possible.
