@@ -6,37 +6,36 @@
 # created 2013.09.24
 ####################################
 
-
 arg=$1;
 case $arg in
-    "itunes" ) state=`osascript -e 'tell application "iTunes" to player state as string'`;
-        #echo "iTunes is currently $state.";
-        play='-'
-        if [ $state = "playing" -o $state = "paused" ]; then
-            if [ $state = "playing" ]; then
-                play="#[fg=green]▶#[default]"
-            fi
-            artist=`osascript -e 'tell application "iTunes" to artist of current track as string'`;
-            track=`osascript -e 'tell application "iTunes" to name of current track as string'`;
-            info="$artist: $track";
-            echo "| $play | $info ";
-        fi
+    "itunes" ) 
+        a=iTunes
         break ;;
 
-    "spotify" ) state=`osascript -e 'tell application "Spotify" to player state as string'`;
-        play='-'
-        if [ $state = "playing" -o $state = "paused" ]; then
-            if [ $state = "playing" ]; then
-                play="#[fg=green]▶#[default]"
-            fi
-            artist=`osascript -e 'tell application "Spotify" to artist of current track as string'`;
-            track=`osascript -e 'tell application "Spotify" to name of current track as string'`;
-            info="$artist: $track";
-            echo "| $play | $info ";
-        fi
+    "spotify" ) 
+        a=Spotify
         break ;;
 
-    "help" | * ) echo "help:";
-        showHelp;
+    "help" | * )
+        echo "Please specify 'itunes' or 'spotify'"
+        exit 1
         break ;;
 esac
+osascript <<EOF
+if application "$a" is running then
+  try
+    tell application "$a"
+      set theName to name of the current track
+      set theArtist to artist of the current track
+      set theAlbum to album of the current track
+      set state to player state as string
+      if state is "playing"
+          set p to "#[fg=green]▶#[default]"
+      else
+          set p to "-"
+      end if
+        return "| " & p & " | " & theArtist & ": " & theName & " "
+    end tell
+  end try
+end if
+EOF
