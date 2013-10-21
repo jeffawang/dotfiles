@@ -1,0 +1,13 @@
+if application "iTunes" is running then
+  tell application "iTunes"
+    set theName to name of the current track
+    set theArtist to artist of the current track
+    set theAlbum to album of the current track
+    if player state = "playing"
+        set p to "#[fg=green]▶#[default]"
+    else
+        set p to "-"
+    end if
+      return "| " & p & " | " & theArtist & ": " & theName & " "
+  end tell
+end if

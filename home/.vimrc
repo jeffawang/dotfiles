@@ -4,7 +4,7 @@ filetype plugin indent on
 
 syn on
 set number
-highlight LineNr cterm=none ctermfg=grey
+highlight LineNr cterm=none ctermfg=grey ctermbg=black
 
 set hlsearch
 nohl
@@ -54,38 +54,38 @@ vnoremap <leader>y y:w !pbcopy<cr><cr>
 nnoremap <leader>j :call system("pbcopy", getreg(""))<cr>
 
 
-" set list       
-" set listchars=tab:▸\ ,eol:¬
+"set list       
+"set listchars=tab:▸\ ,eol:¬
 
  
 hi MatchParen cterm=underline ctermbg=none
 hi NonText ctermfg=4
 hi VertSplit term=bold,reverse cterm=reverse gui=bold,reverse ctermfg=0 ctermbg=4
-hi StatusLineNC term=underline,reverse cterm=underline,reverse gui=reverse ctermfg=0 ctermbg=4
-hi StatusLine term=none cterm=underline gui=none ctermfg=0 ctermbg=4
+"hi StatusLineNC term=underline,reverse cterm=underline,reverse gui=reverse ctermfg=0 ctermbg=4
+"hi StatusLine term=none cterm=underline gui=none ctermfg=0 ctermbg=4
 
-hi User1 ctermbg=4 ctermfg=0 guibg=green guifg=red cterm=underline
-
-hi User2 ctermbg=3 ctermfg=0 guibg=none guifg=none cterm=underline
-hi User3 ctermbg=green ctermfg=red guibg=green guifg=red
+"hi User1 ctermbg=4 ctermfg=0 guibg=green guifg=red cterm=underline
+"
+"hi User2 ctermbg=3 ctermfg=0 guibg=none guifg=none cterm=underline
+"hi User3 ctermbg=green ctermfg=red guibg=green guifg=red
 
 " set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 "set statusline=%1*
-set statusline=%F\       "Full path
-" set statusline+=%t       "tail of the filename
-set statusline+=%*[%n%H%M%R%W]
-"set statusline+=%h      "help file flag
-"set statusline+=\ %m      "modified flag
-"set statusline+=%r      "read only flag
-
-"set statusline+=%y       "filetype
-set statusline+=%=      "left/right separator
-
-set statusline+=%L\     "Total line count
-set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
-set statusline+=%{&ff}] "file format
-set statusline+=\ %P    "percent through file
-set laststatus=2
+"set statusline=%F\       "Full path
+"" set statusline+=%t       "tail of the filename
+"set statusline+=%*[%n%H%M%R%W]
+""set statusline+=%h      "help file flag
+""set statusline+=\ %m      "modified flag
+""set statusline+=%r      "read only flag
+"
+""set statusline+=%y       "filetype
+"set statusline+=%=      "left/right separator
+"
+"set statusline+=%L\     "Total line count
+"set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
+"set statusline+=%{&ff}] "file format
+"set statusline+=\ %P    "percent through file
+"set laststatus=2
 
 "if version >= 700
 "  au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
@@ -104,3 +104,12 @@ hi Keyword      ctermfg=3 cterm=none
 hi PreProc      ctermfg=3 cterm=none
 hi Number       ctermfg=1* cterm=none
 hi Special      ctermfg=5 cterm=none
+
+set term=xterm-256color
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_min_count = 2
+let g:airline#extensions#tabline#tab_min_count = 2
+
+""" FOR STATUSLINE
+set laststatus=2   " Always show the statusline
