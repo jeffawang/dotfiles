@@ -1,3 +1,11 @@
+function __remote_ps1() {
+    if [[ $(hostname) != '<REDACTED FROM GIT HISTORY>' ]]; then
+        echo "%{$fg[yellow]%}"
+    else
+        echo "%{$fg[blue]%}"
+    fi
+}
+
 function __git_ps1() {
      local PS1_OUTPUT=""
      if [[ -d $(git rev-parse --git-dir 2>/dev/null) ]]; then
@@ -22,14 +30,20 @@ function __git_ps1() {
     echo "$PS1_OUTPUT"
 }
 
-export PATH="$HOME/.rbenv/shims:$PATH"
-eval "$(rbenv init -)"
+#export PATH="$HOME/.rbenv/shims:$PATH"
+#eval "$(rbenv init -)"
 
 #source ~/.bashrc
 
 # ls aliases
-alias ls='ls -G'
-alias ll='ls -l'
+ls --color=auto 2>/dev/null >/dev/null
+if [[ $? != 0 ]]; then 
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
+alias ll='ls -Fl'
+
 
 # git aliases
 alias gco='git checkout'
@@ -39,12 +53,31 @@ alias ga='git add'
 alias gc='git commit'
 alias gd='git diff'
 alias gdc='git diff --cached'
+alias gb='git branch'
+alias gl='git log'
+
+
+# sudo aliases
+alias please=sudo
+alias fucking=sudo
 
 autoload -U select-word-style
 select-word-style bash
 
 autoload -U colors && colors
 setopt PROMPT_SUBST
-PROMPT='%{$fg[blue]%}%n@%m: %~%{$reset_color%} $(__git_ps1)%{$fg[blue]%}%# %{$reset_color%}'
+PROMPT='%{$fg[blue]%}%n@$(__remote_ps1)%m%{$fg[blue]%}: %~%{$reset_color%} $(__git_ps1)%{$fg[blue]%}%# %{$reset_color%}'
 
 export EDITOR=vim
+
+export HISTFILE=~/.zsh_history
+setopt INC_APPEND_HISTORY
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY # share history between sessions ???
+setopt EXTENDED_HISTORY # add timestamps to history
+
+export TERM=xterm-256color
+
+

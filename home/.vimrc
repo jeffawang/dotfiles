@@ -3,15 +3,14 @@ filetype plugin indent on
 
 syn on
 set number
-highlight LineNr cterm=none ctermfg=grey ctermbg=black
 
 set hlsearch
 nohl
 
 " Indentation settings.  Automatic when relevant and 4 spaces.
 set smartindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set expandtab
 
 set noswapfile
@@ -40,41 +39,88 @@ hi CursorLine ctermbg=234 cterm=none
 let mapleader = ","
 
 " CtrlP Stuff
-nnoremap <C-o> :CtrlP 
+nnoremap <C-o> :CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 
 " NERDTree Stuff
 nnoremap <leader>n :NERDTree<cr>
 
-nnoremap <leader>h :set hlsearch! hlsearch?<cr>
+nnoremap <leader>h :nohl<cr>
 " Vim yank register to system clipboard
 nnoremap <leader>j :call system("pbcopy", getreg(""))<cr>
 
-set list       
+" Tab and Buffer Navigation
+nnoremap <tab> :tabn<cr>
+nnoremap <S-tab> :tabp<cr>
+nnoremap <leader><space> :bn<cr>
+nnoremap <leader><S-space> :bp<cr>
+nnoremap <leader>b :bn<cr>
+nnoremap <leader>v :bp<cr>
+
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :bp\|bd#<cr>
+nnoremap <leader>x :w\|bd<cr>
+
+
+set list
 set listchars=tab:▸\  ", "eol:¬
- 
+
 hi MatchParen cterm=underline ctermbg=none
 hi NonText ctermfg=4
 hi VertSplit term=bold,reverse cterm=reverse gui=bold,reverse ctermfg=0 ctermbg=4
 
-hi Comment      ctermfg=7 cterm=none
+set t_Co=256
+
+
+
+" Hi hi xD
+hi Comment      ctermfg=08 cterm=none
 hi Todo         ctermfg=0 ctermbg=3 cterm=none
-hi Constant     ctermfg=1 cterm=none
+hi Constant     ctermfg=04 cterm=none
 hi String       ctermfg=4* cterm=none
 hi Identifier   ctermfg=4 cterm=none
-hi Function     ctermfg=2 cterm=none
-hi Type         ctermfg=5 cterm=none
-hi Statement    ctermfg=3 cterm=none
+"hi Function     ctermfg=71 cterm=none
+hi Function     ctermfg=04 cterm=none
+hi Type         ctermfg=03 cterm=none
+hi Statement    ctermfg=71 cterm=none
+hi PreProc      ctermfg=71 cterm=none
 hi Keyword      ctermfg=3 cterm=none
-hi PreProc      ctermfg=3 cterm=none
-hi Number       ctermfg=1* cterm=none
+hi Number       ctermfg=04 cterm=none
 hi Special      ctermfg=5 cterm=none
+hi Search       ctermfg=0 ctermbg=1     cterm=none
+hi LineNr       ctermfg=239 ctermbg=233 cterm=none
+hi Folded       ctermfg=4 ctermbg=none cterm=underline
 
+hi todoIncomplete ctermfg=3
+hi todoInProgress ctermfg=5
+hi todoComplete ctermfg=2
+hi todoComment ctermfg=8
+
+set foldmethod=indent
+set nofoldenable
+
+
+nnoremap f zA
+nnoremap F za
+
+
+let g:airline_theme='omg'
 set term=xterm-256color
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_min_count = 2
-"let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#tabline#buffer_min_count = 1
+let g:airline#extensions#tabline#tab_min_count = 1
+
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline#extensions#tabline#tab_nr_type = 1
 
 set laststatus=2   " Always show the statusline
+set showtabline=2
+
+" let g:airline_section_z = '%{hostname()}'
+
+let g:airline#extensions#branch#enabled = 1
