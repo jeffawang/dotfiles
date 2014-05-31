@@ -1,5 +1,5 @@
 function __remote_ps1() {
-    if [[ -n $SSH_CLIENT ]]; then
+    if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
         echo "%{$fg[yellow]%}"
     else
         echo "%{$fg[blue]%}"
