@@ -4,3 +4,15 @@
 [submodule "home/.vim/autoload/.vim/bundle/puppet"]
 	path = home/.vim/autoload/.vim/bundle/puppet
 	url = git://github.com/rodjek/vim-puppet.git
+[submodule "ack.vim"]
+    path = home/.vim/bundle/ack.vim
+    url = git://github.com/jeffawang/ack.vim.git
+[submodule "nerdtree"]
+    path = home/.vim/bundle/nerdtree
+    url = git://github.com/jeffawang/nerdtree.git
+[submodule "vim-airline"]
+    path = home/.vim/bundle/vim-airline
+    url = git://github.com/jeffawang/vim-airline.git
+[submodule "vim-fugitive"]
+    path = home/.vim/bundle/vim-fugitive
+    url = git://github.com/jeffawang/vim-fugitive.git
