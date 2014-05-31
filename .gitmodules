@@ -1,9 +1,3 @@
-[submodule "home/.vim/bundle/.vim/bundle/puppet"]
-	path = home/.vim/bundle/.vim/bundle/puppet
-	url = git://github.com/rodjek/vim-puppet.git
-[submodule "home/.vim/autoload/.vim/bundle/puppet"]
-	path = home/.vim/autoload/.vim/bundle/puppet
-	url = git://github.com/rodjek/vim-puppet.git
 [submodule "ack.vim"]
     path = home/.vim/bundle/ack.vim
     url = git://github.com/jeffawang/ack.vim.git

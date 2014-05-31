@@ -1,5 +1,5 @@
 function __remote_ps1() {
-    if [[ $(hostname) != '<REDACTED FROM GIT HISTORY>' ]]; then
+    if [[ -n $SSH_CLIENT ]]; then
         echo "%{$fg[yellow]%}"
     else
         echo "%{$fg[blue]%}"
