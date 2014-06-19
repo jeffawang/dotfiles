@@ -1,3 +1,6 @@
+function note() {
+    vim $NOTES/$1
+}
 function __remote_ps1() {
     if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
         echo "%{$fg[yellow]%}"
@@ -79,5 +82,6 @@ setopt SHARE_HISTORY # share history between sessions ???
 setopt EXTENDED_HISTORY # add timestamps to history
 
 export TERM=xterm-256color
-
+export NOTES=~/Documents/notes
+export WORKING=$NOTES/working
 
