@@ -9,5 +9,6 @@ endif
 
 syn region todoComplete start="\(^\[x\]\)\@<=.*" end="$" skipnl skipwhite nextgroup=todoComment
 syn region todoInProgress start="\(^\[-\]\)\@<=.*" end="$" skipnl skipwhite nextgroup=todoComment
+syn region todoPending start="\(^\[|\]\)\@<=.*" end="$" skipnl skipwhite nextgroup=todoComment
 syn region todoIncomplete start="\(^\[ \]\)\@<=.*" end="$" skipnl skipwhite nextgroup=todoComment
 syn region todoComment start="^" end="\(^\[.\]\)\@=" skipnl fold contained

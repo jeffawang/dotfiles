@@ -96,6 +96,7 @@ hi todoIncomplete ctermfg=3
 hi todoInProgress ctermfg=5
 hi todoComplete ctermfg=2
 hi todoComment ctermfg=8
+hi todoPending ctermfg=4
 
 set foldmethod=indent
 set nofoldenable
