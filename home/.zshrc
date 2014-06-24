@@ -41,11 +41,11 @@ function __git_ps1() {
 # ls aliases
 ls --color=auto 2>/dev/null >/dev/null
 if [[ $? != 0 ]]; then 
-    alias ls='ls -G'
+    alias ls='ls -GF'
 else
     alias ls='ls --color=auto'
 fi
-alias ll='ls -Fl'
+alias ll='ls -l'
 
 
 # git aliases
@@ -85,3 +85,7 @@ export TERM=xterm-256color
 export NOTES=~/Documents/notes
 export WORKING=$NOTES/working
 
+
+setopt interactivecomments
+
+bindkey -e

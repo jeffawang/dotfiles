@@ -45,6 +45,7 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 
 " NERDTree Stuff
 nnoremap <leader>n :NERDTree<cr>
+let NERDTreeChDirMode=2
 
 nnoremap <leader>h :nohl<cr>
 " Vim yank register to system clipboard
@@ -60,6 +61,7 @@ nnoremap <leader>v :bp<cr>
 
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :bp\|bd#<cr>
+nnoremap <leader>Q :bp!\|bd!#<cr>
 nnoremap <leader>x :w\|bd<cr>
 
 
@@ -93,10 +95,10 @@ hi LineNr       ctermfg=239 ctermbg=233 cterm=none
 hi Folded       ctermfg=4 ctermbg=none cterm=underline
 
 hi todoIncomplete ctermfg=3
-hi todoInProgress ctermfg=5
+hi todoInProgress ctermfg=4
 hi todoComplete ctermfg=2
 hi todoComment ctermfg=8
-hi todoPending ctermfg=4
+hi todoPending ctermfg=1
 
 set foldmethod=indent
 set nofoldenable
