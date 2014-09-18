@@ -103,11 +103,6 @@ hi todoPending ctermfg=1
 set foldmethod=indent
 set nofoldenable
 
-
-nnoremap f zA
-nnoremap F za
-
-
 let g:airline_theme='omg'
 set term=xterm-256color
 let g:airline_powerline_fonts = 0
@@ -127,3 +122,15 @@ set showtabline=2
 " let g:airline_section_z = '%{hostname()}'
 
 let g:airline#extensions#branch#enabled = 1
+
+if &term =~ '^xterm'
+  " solid underscore
+  let &t_SI .= "\<Esc>[5 q"
+  " solid block
+  let &t_EI .= "\<Esc>[1 q"
+  " 1 or 0 -> blinking block
+  " 3 -> blinking underscore
+  " Recent versions of xterm (282 or above) also support
+  " 5 -> blinking vertical bar
+  " 6 -> solid vertical bar
+endif

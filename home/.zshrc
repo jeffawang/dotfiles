@@ -98,3 +98,4 @@ then
     export SSH_AUTH_SOCK=$SOCK
 fi
 
+export GOPATH=$HOME/go
