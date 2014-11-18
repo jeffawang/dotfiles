@@ -18,6 +18,7 @@ set noswapfile
 set encoding=utf-8
 set scrolloff=3
 set visualbell
+autocmd VimEnter * set vb t_vb=
 set ttyfast
 set ignorecase
 set smartcase
@@ -39,7 +40,6 @@ hi CursorLine ctermbg=234 cterm=none
 let mapleader = ","
 
 " CtrlP Stuff
-nnoremap <C-o> :CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode = 1
@@ -71,7 +71,7 @@ set listchars=tab:▸\  ", "eol:¬
 
 hi MatchParen cterm=underline ctermbg=none
 hi NonText ctermfg=4
-hi VertSplit term=bold,reverse cterm=reverse gui=bold,reverse ctermfg=0 ctermbg=4
+hi VertSplit ctermfg=0 ctermbg=4
 
 set t_Co=256
 
@@ -95,6 +95,7 @@ hi Search       ctermfg=0 ctermbg=1     cterm=none
 hi LineNr       ctermfg=239 ctermbg=233 cterm=none
 hi Folded       ctermfg=4 ctermbg=none cterm=underline
 
+" For use in custom todo syntax highlighter.
 hi todoIncomplete ctermfg=3
 hi todoInProgress ctermfg=4
 hi todoComplete ctermfg=2
