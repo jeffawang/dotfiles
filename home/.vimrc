@@ -42,6 +42,7 @@ let mapleader = ","
 nnoremap <C-o> :CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_working_path_mode = 1
 
 " NERDTree Stuff
 nnoremap <leader>n :NERDTree<cr>
@@ -52,8 +53,8 @@ nnoremap <leader>h :nohl<cr>
 nnoremap <leader>j :call system("pbcopy", getreg(""))<cr>
 
 " Tab and Buffer Navigation
-nnoremap <tab> :tabn<cr>
-nnoremap <S-tab> :tabp<cr>
+"nnoremap <tab> :tabn<cr>
+"nnoremap <S-tab> :tabp<cr>
 nnoremap <leader><space> :bn<cr>
 nnoremap <leader><S-space> :bp<cr>
 nnoremap <leader>b :bn<cr>
@@ -99,6 +100,7 @@ hi todoInProgress ctermfg=4
 hi todoComplete ctermfg=2
 hi todoComment ctermfg=8
 hi todoPending ctermfg=1
+hi todoHash ctermfg=5
 
 set foldmethod=indent
 set nofoldenable
@@ -123,14 +125,4 @@ set showtabline=2
 
 let g:airline#extensions#branch#enabled = 1
 
-if &term =~ '^xterm'
-  " solid underscore
-  let &t_SI .= "\<Esc>[5 q"
-  " solid block
-  let &t_EI .= "\<Esc>[1 q"
-  " 1 or 0 -> blinking block
-  " 3 -> blinking underscore
-  " Recent versions of xterm (282 or above) also support
-  " 5 -> blinking vertical bar
-  " 6 -> solid vertical bar
-endif
+" Snippet stuff

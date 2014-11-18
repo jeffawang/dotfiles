@@ -10,3 +10,9 @@
 [submodule "vim-fugitive"]
     path = home/.vim/bundle/vim-fugitive
     url = git://github.com/jeffawang/vim-fugitive.git
+[submodule "home/.vim/bundle/vim-snippets"]
+	path = home/.vim/bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets.git
+[submodule "home/.vim/bundle/ultisnips"]
+	path = home/.vim/bundle/ultisnips
+	url = git://github.com/SirVer/ultisnips.git
