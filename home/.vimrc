@@ -84,12 +84,12 @@ hi Constant     ctermfg=04 cterm=none
 hi String       ctermfg=4* cterm=none
 hi Identifier   ctermfg=4 cterm=none
 "hi Function     ctermfg=71 cterm=none
-hi Function     ctermfg=04 cterm=none
-hi Type         ctermfg=03 cterm=none
-hi Statement    ctermfg=71 cterm=none
-hi PreProc      ctermfg=71 cterm=none
+hi Function     ctermfg=4 cterm=none
+hi Type         ctermfg=3 cterm=none
+hi Statement    ctermfg=2 cterm=none
+hi PreProc      ctermfg=2 cterm=bold
 hi Keyword      ctermfg=3 cterm=none
-hi Number       ctermfg=04 cterm=none
+hi Number       ctermfg=4 cterm=none
 hi Special      ctermfg=5 cterm=none
 hi Search       ctermfg=0 ctermbg=1     cterm=none
 hi LineNr       ctermfg=239 ctermbg=233 cterm=none
@@ -107,7 +107,7 @@ set foldmethod=indent
 set nofoldenable
 
 let g:airline_theme='omg'
-set term=xterm-256color
+set term=screen-256color
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_min_count = 1
