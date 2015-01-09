@@ -91,7 +91,7 @@ hi PreProc      ctermfg=2 cterm=bold
 hi Keyword      ctermfg=3 cterm=none
 hi Number       ctermfg=4 cterm=none
 hi Special      ctermfg=5 cterm=none
-hi Search       ctermfg=0 ctermbg=1     cterm=none
+hi Search       ctermfg=0 ctermbg=1     ctermfg=16
 hi LineNr       ctermfg=239 ctermbg=233 cterm=none
 hi Folded       ctermfg=4 ctermbg=none cterm=underline
 

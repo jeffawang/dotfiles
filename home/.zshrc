@@ -81,7 +81,7 @@ SAVEHIST=10000
 setopt SHARE_HISTORY # share history between sessions ???
 setopt EXTENDED_HISTORY # add timestamps to history
 
-export TERM=xterm-256color
+#export TERM=xterm-256color
 export NOTES=~/Documents/notes
 export WORKING=$NOTES/working
 
