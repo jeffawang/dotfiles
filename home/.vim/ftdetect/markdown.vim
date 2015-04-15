@@ -1,1 +1,1 @@
-au BufRead,BufNewFile *.md set filetype=markdown
+au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
