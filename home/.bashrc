@@ -20,8 +20,13 @@ function __git_ps1() {
     echo "$PS1_OUTPUT"
 
 }
+function __venv_ps1() {
+    if [[ -n $VIRTUAL_ENV ]]; then
+        echo "(venv)"
+    fi
+}
 function __set_prompt() {
-    PS1="\[\033[34m\]\u@$(__remote_ps1)\[\033[34m\]: \w\[\033[0m\] $(__git_ps1)\[\033[34m\]\$ \[\033[0m\]"
+    PS1="$(__venv_ps1)\[\033[34m\]\u@$(__remote_ps1)\[\033[34m\]: \w\[\033[0m\] $(__git_ps1)\[\033[34m\]\$ \[\033[0m\]"
 }
 
 ls --color=auto >/dev/null 2>&1
@@ -68,3 +73,5 @@ then
 fi
 
 export GOPATH=$HOME/go
+
+export PYTHONDONTWRITEBYTECODE=0
