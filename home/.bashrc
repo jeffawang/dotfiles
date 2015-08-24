@@ -27,7 +27,7 @@ function __venv_ps1() {
 }
 function __set_prompt() {
     EXIT_INFO=$(test $? == 0 && printf "\[\033[34m\]" || printf "\[\033[31m\]$? ")
-    PS1="$(__venv_ps1)\[\033[34m\]\u@$(__remote_ps1)\[\033[34m\]: \w\[\033[0m\] $(__git_ps1)${EXIT_INFO}\[\033[34m\]\[\033[1;30m\]$(date)\n\[\033[34m\]\$ \[\033[0m\]"
+    PS1="$(__venv_ps1)\[\033[34m\]\u@$(__remote_ps1)\[\033[34m\]: \w\[\033[0m\] $(__git_ps1)${EXIT_INFO}\[\033[34m\]\$ \[\033[0m\]"
 }
 
 ls --color=auto >/dev/null 2>&1
