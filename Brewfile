@@ -1,3 +1,4 @@
+tap 'homebrew/bundle'
 tap 'caskroom/cask'
 brew 'tmux'
 brew 'pyenv'
