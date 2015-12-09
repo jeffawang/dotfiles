@@ -1,18 +1,21 @@
-[submodule "ack.vim"]
-    path = home/.vim/bundle/ack.vim
-    url = git://github.com/jeffawang/ack.vim.git
-[submodule "nerdtree"]
-    path = home/.vim/bundle/nerdtree
-    url = git://github.com/jeffawang/nerdtree.git
-[submodule "vim-airline"]
-    path = home/.vim/bundle/vim-airline
-    url = git://github.com/jeffawang/vim-airline.git
-[submodule "vim-fugitive"]
-    path = home/.vim/bundle/vim-fugitive
-    url = git://github.com/jeffawang/vim-fugitive.git
-[submodule "home/.vim/bundle/vim-snippets"]
-	path = home/.vim/bundle/vim-snippets
-	url = https://github.com/honza/vim-snippets.git
-[submodule "home/.vim/bundle/ultisnips"]
-	path = home/.vim/bundle/ultisnips
-	url = git://github.com/SirVer/ultisnips.git
+[submodule "home/vim/bundle/ack.vim"]
+	path = home/vim/bundle/ack.vim
+	url = git://github.com/jeffawang/ack.vim.git
+[submodule "home/vim/bundle/nerdtree"]
+	path = home/vim/bundle/nerdtree
+	url = git://github.com/jeffawang/nerdtree.git
+[submodule "home/vim/bundle/vim-airline"]
+	path = home/vim/bundle/vim-airline
+	url = git://github.com/jeffawang/vim-airline.git
+[submodule "home/vim/bundle/vim-fugitive"]
+	path = home/vim/bundle/vim-fugitive
+	url = git://github.com/jeffawang/vim-fugitive.git
+[submodule "home/vim/bundle/vim-flavored-markdown"]
+	path = home/vim/bundle/vim-flavored-markdown
+	url = git://github.com/jtratner/vim-flavored-markdown.git
+[submodule "home/vim/bundle/vim-surround"]
+	path = home/vim/bundle/vim-surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule "home/vim/bundle/tabular"]
+	path = home/vim/bundle/tabular
+	url = git://github.com/godlygeek/tabular.git
