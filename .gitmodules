@@ -1,21 +1,21 @@
-[submodule "home/vim/bundle/ack.vim"]
-	path = home/vim/bundle/ack.vim
+[submodule "vim/bundle/ack.vim"]
+	path = vim/bundle/ack.vim
 	url = git://github.com/jeffawang/ack.vim.git
-[submodule "home/vim/bundle/nerdtree"]
-	path = home/vim/bundle/nerdtree
+[submodule "vim/bundle/nerdtree"]
+	path = vim/bundle/nerdtree
 	url = git://github.com/jeffawang/nerdtree.git
-[submodule "home/vim/bundle/vim-airline"]
-	path = home/vim/bundle/vim-airline
+[submodule "vim/bundle/vim-airline"]
+	path = vim/bundle/vim-airline
 	url = git://github.com/jeffawang/vim-airline.git
-[submodule "home/vim/bundle/vim-fugitive"]
-	path = home/vim/bundle/vim-fugitive
+[submodule "vim/bundle/vim-fugitive"]
+	path = vim/bundle/vim-fugitive
 	url = git://github.com/jeffawang/vim-fugitive.git
-[submodule "home/vim/bundle/vim-flavored-markdown"]
-	path = home/vim/bundle/vim-flavored-markdown
+[submodule "vim/bundle/vim-flavored-markdown"]
+	path = vim/bundle/vim-flavored-markdown
 	url = git://github.com/jtratner/vim-flavored-markdown.git
-[submodule "home/vim/bundle/vim-surround"]
-	path = home/vim/bundle/vim-surround
+[submodule "vim/bundle/vim-surround"]
+	path = vim/bundle/vim-surround
 	url = git://github.com/tpope/vim-surround.git
-[submodule "home/vim/bundle/tabular"]
-	path = home/vim/bundle/tabular
+[submodule "vim/bundle/tabular"]
+	path = vim/bundle/tabular
 	url = git://github.com/godlygeek/tabular.git
