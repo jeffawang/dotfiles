@@ -73,3 +73,12 @@ then
     export SSH_AUTH_SOCK=$SOCK
 fi
 
+
+export RBENV_ROOT="$HOME/.rbenv"
+export PYENV_ROOT="$HOME/.pyenv"
+if [ -z "$PATH_EXPANDED" ]; then
+    PATH="$HOME/bin:$PYENV_ROOT/bin:$RBENV_ROOT/bin:$PATH"
+fi
+
+eval "$(pyenv init -)"
+eval "$(rbenv init -)"

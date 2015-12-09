@@ -25,6 +25,10 @@ main() {
       mkdir -pv ~/${i}
     done
 
+    for i in bin/*; do
+      ln -sfv $base/${i} ~/${i}
+    done
+
     # Homebrew
     if [ $(uname -s) = 'Darwin' ]; then
       [ -z "$(which brew)" ] &&
