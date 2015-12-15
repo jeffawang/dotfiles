@@ -50,8 +50,10 @@ function __venv_ps1() {
         echo "(venv)"
     fi
 }
+
 function __set_prompt() {
-    EXIT_INFO=$(test $? == 0 && printf "\[\033[34m\]" || printf "\[\033[31m\]$? ")
+    exit_code="$?"
+    EXIT_INFO=$([ "$exit_code" == 0 ] || printf "$(__color red)$exit_code ")
     PS1="$(__venv_ps1)$(__user_ps1)@$(__remote_ps1)$(__color blue): \w$(__color) $(__git_ps1)${EXIT_INFO}$(__color blue)\$ $(__color)"
 }
 
@@ -106,19 +108,18 @@ pssh() {
     tmux set-window-option synchronize-panes on > /dev/null
 }
 
+# ls aliases
 ls --color=auto >/dev/null 2>&1
 if [[ $? != 0 ]]; then
     alias ls="ls -GF"
 else
     alias ls="ls --color=auto"
 fi
+alias ll='ls -l'
 
 
 PROMPT_COMMAND='__set_prompt'
 PS1="${error} ${PS1}"
-
-# misc aliases
-alias ll='ls -l'
 
 # git aliases
 alias gco='git checkout'
@@ -150,11 +151,22 @@ then
 fi
 
 
+function append_paths() {
+    for i in "$@"; do
+        [[ -d "$i" ]] && export PATH="$PATH:$i" || true
+    done
+}
+
+CODEPATH="$HOME/code"
+alias qcd="cd $CODEPATH"
 export RBENV_ROOT="$HOME/.rbenv"
 export PYENV_ROOT="$HOME/.pyenv"
+
 if [ -z "$PATH_EXPANDED" ]; then
-    PATH="$HOME/bin:$PYENV_ROOT/bin:$RBENV_ROOT/bin:$PATH"
+    append_paths $CODEPATH/puppet-tools $HOME/go
+    append_paths $PYENV_ROOT/bin $RBENV_ROOT/bin
+    export PATH_EXPANDED=1
 fi
 
-eval "$(pyenv init -)"
-eval "$(rbenv init -)"
+eval "$(which pyenv 2>&1 > /dev/null && pyenv init -)"
+eval "$(which rbenv 2>&1 > /dev/null && rbenv init -)"
