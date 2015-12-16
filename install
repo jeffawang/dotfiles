@@ -14,7 +14,7 @@ main() {
 
     # Backup existing dotfiles, replace them with links
     [ -d bak ] && mkdir -pv bak
-    for rc in *rc *profile tmux.conf vim; do
+    for rc in *rc *profile tmux.conf vim tmux; do
       [ -L ~/.$rc ] && rm ~/.$rc
       [ -e ~/.$rc ] && mv -v ~/.$rc bak/.$rc
       ln -sfv $base/$rc ~/.$rc
