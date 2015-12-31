@@ -9,8 +9,8 @@
 main() {
     base=$(pwd)
 
-    # git submodule init
-    # git submodule update
+    git submodule init
+    git submodule update
 
     # Backup existing dotfiles, replace them with links
     [ -d bak ] && mkdir -pv bak

@@ -164,7 +164,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 if [ -z "$PATH_EXPANDED" ]; then
     append_paths $CODEPATH/puppet-tools $HOME/go
-    append_paths $PYENV_ROOT/bin $RBENV_ROOT/bin
+    append_paths $PYENV_ROOT/bin $RBENV_ROOT/bin $HOME/bin
     export PATH_EXPANDED=1
 fi
 
