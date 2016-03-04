@@ -52,8 +52,15 @@ function __venv_ps1() {
 }
 
 function __set_prompt() {
-    exit_code="$?"
-    EXIT_INFO=$([ "$exit_code" == 0 ] || printf "$(__color red)$exit_code ")
+    exit_codes="${PIPESTATUS[@]}"
+    emit_exit_codes=0
+    for i in ${exit_codes}; do
+        if [ $i -ne 0 ]; then
+            emit_exit_codes=1
+            break
+        fi
+    done
+    EXIT_INFO=$([ "$emit_exit_codes" != 0 ] && printf "$(__color red)$exit_codes ")
     PS1="$(__venv_ps1)$(__user_ps1)@$(__remote_ps1)$(__color blue): \w$(__color) $(__git_ps1)${EXIT_INFO}$(__color blue)\$ $(__color)"
 }
 
@@ -170,3 +177,11 @@ fi
 
 eval "$(which pyenv 2>&1 > /dev/null && pyenv init -)"
 eval "$(which rbenv 2>&1 > /dev/null && rbenv init -)"
+
+function ssh-ec2() {
+    aws ec2 describe-instances --instance-id $1 --query Reservations[].Instances[].PrivateIpAddress --output=text
+}
+
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
