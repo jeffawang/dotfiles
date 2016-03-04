@@ -19,3 +19,6 @@
 [submodule "vim/bundle/tabular"]
 	path = vim/bundle/tabular
 	url = git://github.com/godlygeek/tabular.git
+[submodule "vim/bundle/vim-isort"]
+	path = vim/bundle/vim-isort
+	url = git@github.com:fisadev/vim-isort.git
