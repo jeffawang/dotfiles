@@ -175,8 +175,8 @@ if [ -z "$PATH_EXPANDED" ]; then
     export PATH_EXPANDED=1
 fi
 
-eval "$(which pyenv 2>&1 > /dev/null && pyenv init -)"
-eval "$(which rbenv 2>&1 > /dev/null && rbenv init -)"
+eval "$(which pyenv > /dev/null 2>&1 && pyenv init -)"
+eval "$(which rbenv > /dev/null 2>&1 && rbenv init -)"
 
 function ssh-ec2() {
     aws ec2 describe-instances --instance-id $1 --query Reservations[].Instances[].PrivateIpAddress --output=text
