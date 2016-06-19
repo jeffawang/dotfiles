@@ -22,3 +22,6 @@
 [submodule "vim/bundle/vim-isort"]
 	path = vim/bundle/vim-isort
 	url = git@github.com:fisadev/vim-isort.git
+[submodule "vim/bundle/salt-vim"]
+	path = vim/bundle/salt-vim
+	url = git@github.com:saltstack/salt-vim.git
