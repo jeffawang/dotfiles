@@ -1,7 +1,8 @@
 #!/bin/sh
 
-HEART_FULL=♥
-HEART_EMPTY=♡
+CHARGING_SYMBOL=⑂
+CHARGE_FULL=Ϟ
+CHARGE_EMPTY='.'
 [ -z "$NUM_HEARTS" ] &&
     NUM_HEARTS=5
 
@@ -13,14 +14,14 @@ cutinate()
 
 
     for i in `seq $NUM_HEARTS`; do
-        if [ $perc -lt 100 ]; then
-            HEARTS+="$HEART_EMPTY"
+        if [ $perc -le 95 ]; then
+            HEARTS+="$CHARGE_EMPTY"
         else
-            HEARTS+="$HEART_FULL"
+            HEARTS+="$CHARGE_FULL"
         fi
         perc=$(( $perc + $inc ))
     done
-    echo $HEARTS
+    printf "$HEARTS\n"
 }
 
 linux_get_bat ()
@@ -95,8 +96,11 @@ case $(uname -s) in
                 "CurrentCapacity")
                     export curcap=$value;;
                 "ExternalConnected")
-                    if [ -n "$ext" ] && [ "$ext" != "$value" ]; then
-                        true #exit
+                    if [ -n "$ext" ]; then
+                        if [ "$ext" != "$value" ]; then
+                            printf " $CHARGING_SYMBOL"
+                        fi
+                        exit
                     fi
                 ;;
                 "FullyCharged")
@@ -125,6 +129,7 @@ battery_color()
 }
 
 BATTERY_STATUS=`battery_status $1`
-echo "#[fg=$(battery_color $BATTERY_STATUS)]"$(cutinate $BATTERY_STATUS)"#[default] $BATTERY_STATUS%"
+CHARGING=`battery_status Discharging`
+echo "#[fg=$(battery_color $BATTERY_STATUS)]"[$(cutinate $BATTERY_STATUS)]"#[default] $BATTERY_STATUS%$CHARGING"
 [ -z "$BATTERY_STATUS" ] && exit
 
