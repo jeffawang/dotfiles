@@ -150,6 +150,8 @@ function venv() {
 alias please=sudo
 alias fucking=sudo
 
+alias tf=terraform
+
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -192,3 +194,33 @@ function ssh-ec2() {
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
+
+function note {
+    local notepath
+    notepath=$HOME/files/notes/scratch
+    if [ "${#}" == 0 ]; then
+        [ -f $notepath ] && cat $notepath
+    elif [ "${*}" == "-a" ]; then
+        cat $notepath.* $notepath
+    elif [ "${*}" == "-e" ]; then
+        vim $notepath
+    elif [ "${*}" == "-1" ]; then
+        tail -r $notepath | sed -n -e '1,/^--- /p' | tail -r
+    elif [ "${*}" == "-r" ]; then
+        mv $notepath $notepath.$(date +'%Y-%m-%d-%H%M%S')
+        touch $notepath
+    elif [ "${*}" == "-l" ]; then
+        basename -a $notepath*
+    elif [ "${*}" == "-" ]; then
+        echo "--- $(date) ---" >> $notepath
+        cat >> $notepath
+        echo >> $notepath
+    else
+        echo "--- $(date) ---" >> $notepath
+        echo "${*}" >> $notepath
+        echo >> $notepath
+    fi
+}
+
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
+append_paths $JAVA_HOME/bin
