@@ -138,6 +138,13 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gb='git branch'
 alias gl='git log'
+alias rtfm=man
+
+function venv() {
+    [ -d ./venv ] || virtualenv venv
+    . ./venv/bin/activate
+    [[ -n "$1" ]] && pip install -r $1
+}
 
 # sudo aliases
 alias please=sudo
