@@ -35,7 +35,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 set cursorline
-hi CursorLine ctermbg=234 cterm=none
+hi CursorLine ctermbg=235 cterm=none
 
 let mapleader = ","
 
