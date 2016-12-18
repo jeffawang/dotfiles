@@ -146,7 +146,9 @@ alias rtfm=man
 function venv() {
     [ -d ./venv ] || virtualenv venv
     . ./venv/bin/activate
-    [[ -n "$1" ]] && pip install -r $1
+    if [[ -n "$1" ]]; then
+       pip install -r $1
+    fi
 }
 
 # sudo aliases
