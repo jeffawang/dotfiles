@@ -52,6 +52,9 @@ function __venv_ps1() {
 }
 
 function __set_prompt() {
+    local exit_codes
+    local emit_exit_codes
+    local i
     exit_codes="${PIPESTATUS[@]}"
     emit_exit_codes=0
     for i in ${exit_codes}; do
@@ -168,6 +171,7 @@ fi
 
 
 function append_paths() {
+    local i
     for i in "$@"; do
         [[ -d "$i" ]] && export PATH="$PATH:$i" || true
     done
