@@ -51,7 +51,7 @@ function __venv_ps1() {
     fi
 }
 
-function __set_prompt() {
+function __set_prompt_mac() {
     local exit_codes
     local emit_exit_codes
     local i
@@ -65,6 +65,11 @@ function __set_prompt() {
     done
     EXIT_INFO=$([ "$emit_exit_codes" != 0 ] && printf "$(__color red)$exit_codes ")
     PS1="$(__venv_ps1)$(__user_ps1)@$(__remote_ps1)$(__color blue): \w$(__color) $(__git_ps1)${EXIT_INFO}$(__color blue)\$ $(__color)"
+}
+
+function __set_prompt_ubuntu() {
+    # Default ubuntu prompt
+    PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$'
 }
 
 
@@ -128,8 +133,15 @@ fi
 alias ll='ls -l'
 
 
-PROMPT_COMMAND='__set_prompt'
-PS1="${error} ${PS1}"
+case $(uname -s) in
+'Darwin')
+    PROMPT_COMMAND='__set_prompt'
+    PS1="${error} ${PS1}"
+    ;;
+'Linux')
+    __set_prompt_ubuntu
+    ;;
+esac
 
 # git aliases
 alias gco='git checkout'
