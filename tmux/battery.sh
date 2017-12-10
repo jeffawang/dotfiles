@@ -130,6 +130,6 @@ battery_color()
 
 BATTERY_STATUS=`battery_status $1`
 CHARGING=`battery_status Discharging`
-echo "#[fg=$(battery_color $BATTERY_STATUS)]"[$(cutinate $BATTERY_STATUS)]"#[default] $BATTERY_STATUS%$CHARGING"
 [ -z "$BATTERY_STATUS" ] && exit
+echo "#[fg=$(battery_color $BATTERY_STATUS)]"[$(cutinate $BATTERY_STATUS)]"#[default] $BATTERY_STATUS%$CHARGING"
 
