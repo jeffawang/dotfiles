@@ -242,3 +242,7 @@ function note {
 
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
 append_paths $JAVA_HOME/bin
+
+if uname -a | grep -q Microsoft; then
+    export LS_COLORS='ow=01;36;40'
+fi
