@@ -135,7 +135,7 @@ alias ll='ls -l'
 
 case $(uname -s) in
 'Darwin')
-    PROMPT_COMMAND='__set_prompt'
+    PROMPT_COMMAND='__set_prompt_mac'
     PS1="${error} ${PS1}"
     ;;
 'Linux')
