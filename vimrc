@@ -66,8 +66,8 @@ nnoremap <leader>Q :bp!\|bd!#<cr>
 nnoremap <leader>x :w\|bd<cr>
 
 
-set list
-set listchars=tab:▸\  ", "eol:¬
+" set list
+" set listchars=tab:▸\  ", "eol:¬
 
 hi MatchParen cterm=underline ctermbg=none
 hi NonText ctermfg=4
@@ -127,4 +127,6 @@ set showtabline=2
 let g:airline#extensions#branch#enabled = 1
 
 " Snippet stuff
+
 let g:go_fmt_command = "goimports"
+
