@@ -572,7 +572,7 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 126 606 469 0 0 1680 1027 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>510 289 796 473 0 0 1680 1027 </string>
+	<string>599 498 796 473 0 0 1680 1050 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>0 0 1680 1050 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
@@ -875,35 +875,35 @@
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x7B</string>
+					<string>0x1C 0x7B</string>
 				</dict>
 				<key>0x21-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x21</string>
+					<string>0x1C 0x21</string>
 				</dict>
 				<key>0x28-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x28</string>
+					<string>0x1C 0x28</string>
 				</dict>
 				<key>0x29-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x29</string>
+					<string>0x1C 0x29</string>
 				</dict>
 				<key>0x2a-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x2A</string>
+					<string>0x1C 0x2A</string>
 				</dict>
 				<key>0x2d-0x40000</key>
 				<dict>
@@ -917,112 +917,112 @@
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x2E</string>
+					<string>0x1C 0x2E</string>
 				</dict>
 				<key>0x30-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x30</string>
+					<string>0x1C 0x30</string>
 				</dict>
 				<key>0x31-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x31</string>
+					<string>0x1C 0x31</string>
 				</dict>
 				<key>0x32-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x32</string>
+					<string>0x1C 0x32</string>
 				</dict>
 				<key>0x33-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x33</string>
+					<string>0x1C 0x33</string>
 				</dict>
 				<key>0x34-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x34</string>
+					<string>0x1C 0x34</string>
 				</dict>
 				<key>0x35-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x35</string>
+					<string>0x1C 0x35</string>
 				</dict>
 				<key>0x36-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x36</string>
+					<string>0x1C 0x36</string>
 				</dict>
 				<key>0x37-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x37</string>
+					<string>0x1C 0x37</string>
 				</dict>
 				<key>0x38-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x38</string>
+					<string>0x1C 0x38</string>
 				</dict>
 				<key>0x39-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x39</string>
+					<string>0x1C 0x39</string>
 				</dict>
 				<key>0x3a-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x3a</string>
+					<string>0x1C 0x3a</string>
 				</dict>
 				<key>0x3c-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x2C</string>
+					<string>0x1C 0x2C</string>
 				</dict>
 				<key>0x3d-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x2B</string>
+					<string>0x1C 0x2B</string>
 				</dict>
 				<key>0x3e-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x3E</string>
+					<string>0x1C 0x3E</string>
 				</dict>
 				<key>0x40-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x40</string>
+					<string>0x1C 0x40</string>
 				</dict>
 				<key>0x44-0x120000</key>
 				<dict>
@@ -1043,49 +1043,49 @@
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x08</string>
+					<string>0x1C 0x08</string>
 				</dict>
 				<key>0x4a-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x7D</string>
+					<string>0x1C 0x7D</string>
 				</dict>
 				<key>0x4b-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x7B</string>
+					<string>0x1C 0x7B</string>
 				</dict>
 				<key>0x4c-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x4C</string>
+					<string>0x1C 0x4C</string>
 				</dict>
 				<key>0x4d-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x4D</string>
+					<string>0x1C 0x4D</string>
 				</dict>
 				<key>0x4f-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x4F</string>
+					<string>0x1C 0x4F</string>
 				</dict>
 				<key>0x50-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x50</string>
+					<string>0x1C 0x50</string>
 				</dict>
 				<key>0x52-0x120000</key>
 				<dict>
@@ -1106,133 +1106,133 @@
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x5B</string>
+					<string>0x1C 0x5B</string>
 				</dict>
 				<key>0x5d-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x5D</string>
+					<string>0x1C 0x5D</string>
 				</dict>
 				<key>0x5f-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x5F</string>
+					<string>0x1C 0x5F</string>
 				</dict>
 				<key>0x61-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x44</string>
+					<string>0x1C 0x44</string>
 				</dict>
 				<key>0x64-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x64</string>
+					<string>0x1C 0x64</string>
 				</dict>
 				<key>0x65-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x65</string>
+					<string>0x1C 0x65</string>
 				</dict>
 				<key>0x66-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x46</string>
+					<string>0x1C 0x46</string>
 				</dict>
 				<key>0x67-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x71</string>
+					<string>0x1C 0x71</string>
 				</dict>
 				<key>0x68-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x6A</string>
+					<string>0x1C 0x6A</string>
 				</dict>
 				<key>0x68-0x140000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x08</string>
+					<string>0x1C 0x08</string>
 				</dict>
 				<key>0x6a-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x5D</string>
+					<string>0x1C 0x5D</string>
 				</dict>
 				<key>0x6a-0x140000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x0A</string>
+					<string>0x1C 0x0A</string>
 				</dict>
 				<key>0x6b-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x5B</string>
+					<string>0x1C 0x5B</string>
 				</dict>
 				<key>0x6b-0x140000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x0B</string>
+					<string>0x1C 0x0B</string>
 				</dict>
 				<key>0x6c-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x6C</string>
+					<string>0x1C 0x6C</string>
 				</dict>
 				<key>0x6c-0x140000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x0C</string>
+					<string>0x1C 0x0C</string>
 				</dict>
 				<key>0x6d-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x6D</string>
+					<string>0x1C 0x6D</string>
 				</dict>
 				<key>0x6f-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x6F</string>
+					<string>0x1C 0x6F</string>
 				</dict>
 				<key>0x70-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x70</string>
+					<string>0x1C 0x70</string>
 				</dict>
 				<key>0x72-0x100000</key>
 				<dict>
@@ -1246,56 +1246,56 @@
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x73</string>
+					<string>0x1C 0x73</string>
 				</dict>
 				<key>0x74-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x63</string>
+					<string>0x1C 0x63</string>
 				</dict>
 				<key>0x77-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x4B</string>
+					<string>0x1C 0x4B</string>
 				</dict>
 				<key>0x79-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x79</string>
+					<string>0x1C 0x79</string>
 				</dict>
 				<key>0x7b-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x7B</string>
+					<string>0x1C 0x7B</string>
 				</dict>
 				<key>0x7c-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x7C</string>
+					<string>0x1C 0x7C</string>
 				</dict>
 				<key>0x7d-0x120000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x7D</string>
+					<string>0x1C 0x7D</string>
 				</dict>
 				<key>0x9-0x40000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x7D</string>
+					<string>0x1C 0x7D</string>
 				</dict>
 				<key>0xd-0x100000</key>
 				<dict>
@@ -1309,7 +1309,7 @@
 					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x00 0x78</string>
+					<string>0x1C 0x78</string>
 				</dict>
 				<key>0xf700-0x220000</key>
 				<dict>
@@ -1794,7 +1794,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-03-21T23:02:25Z</date>
+	<date>2018-03-25T05:49:57Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -2186,7 +2186,7 @@
 													<key>Action</key>
 													<integer>11</integer>
 													<key>Text</key>
-													<string>0x00</string>
+													<string>0x1C</string>
 												</dict>
 												<key>0x33-0x40000</key>
 												<dict>
@@ -3076,7 +3076,7 @@
 													<key>Action</key>
 													<integer>11</integer>
 													<key>Text</key>
-													<string>0x00</string>
+													<string>0x1C</string>
 												</dict>
 												<key>0x33-0x40000</key>
 												<dict>
@@ -3919,7 +3919,7 @@
 															<key>Action</key>
 															<integer>11</integer>
 															<key>Text</key>
-															<string>0x00</string>
+															<string>0x1C</string>
 														</dict>
 														<key>0x33-0x40000</key>
 														<dict>
@@ -4761,7 +4761,7 @@
 															<key>Action</key>
 															<integer>11</integer>
 															<key>Text</key>
-															<string>0x00</string>
+															<string>0x1C</string>
 														</dict>
 														<key>0x33-0x40000</key>
 														<dict>
