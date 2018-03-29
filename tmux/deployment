@@ -1,7 +1,0 @@
-setw -q synchronize-panes off
-send-keys 'fe1'
-select-pane -t :.+
-send-keys 'fe2'
-select-pane -t :.+
-send-keys 'utl'
-setw -q synchronize-panes on
