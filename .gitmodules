@@ -3,7 +3,7 @@
 	url = git://github.com/jeffawang/nerdtree.git
 [submodule "vim/bundle/vim-airline"]
 	path = vim/bundle/vim-airline
-	url = git://github.com/jeffawang/vim-airline.git
+	url = https://github.com/jeffawang/vim-airline.git
 [submodule "vim/bundle/vim-fugitive"]
 	path = vim/bundle/vim-fugitive
 	url = git://github.com/jeffawang/vim-fugitive.git
