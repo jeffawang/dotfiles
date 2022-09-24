@@ -52,11 +52,9 @@ function __venv_ps1() {
 }
 
 function __set_prompt_mac() {
-    local exit_codes
-    local emit_exit_codes
+    local exit_codes="${PIPESTATUS[@]}"
+    local emit_exit_codes=0
     local i
-    exit_codes="${PIPESTATUS[@]}"
-    emit_exit_codes=0
     for i in ${exit_codes}; do
         if [ $i -ne 0 ]; then
             emit_exit_codes=1
