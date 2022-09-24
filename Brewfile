@@ -1,5 +1,5 @@
 tap 'homebrew/bundle'
-tap 'caskroom/cask'
+tap 'homebrew/cask'
 
 brew 'tmux'
 # brew 'go'
