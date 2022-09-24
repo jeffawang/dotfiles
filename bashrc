@@ -245,3 +245,7 @@ if uname -a | grep -q Microsoft; then
     export LS_COLORS='ow=01;36;40'
     export DOCKER_HOST=tcp://0.0.0.0:2375
 fi
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
