@@ -97,6 +97,13 @@
           :g "s-T" #'+workspace/display
           )))
 
+;;; :org bindings
+(map! (:when IS-MAC
+        :g "s-e" #'org-toggle-link-display
+        :g "s-u" #'org-insert-link
+        :g "s-U" #'org-cliplink
+        :n "g l" #'org-down-element
+          ))
 
 (after! org
   (setq org-roam-directory "~/files/org/roam") (setq org-roam-index-file "~/files/org/roam/index.org")
@@ -119,7 +126,8 @@
           ("[.]" . +org-todo-cancel)
           ("[?]" . +org-todo-cancel)
           ))
-  (setq org-agenda-files (list "~/files/org/" "~/files/org/roam/" "~/files/org/roam/daily/" "~/.emacs.d"))
+
+  (setq org-agenda-files '("~/files/org/" "~/files/org/roam/" "~/files/org/roam/daily/" "~/.emacs.d"))
   (setq ;;org-bullets-bullet-list '("·")
         org-superstar-headline-bullets-list '("⁖")
         org-ellipsis " ▾ "

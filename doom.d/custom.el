@@ -3,8 +3,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(dynamic-agenda-files
-   '("/Users/jeffwang/files/org/roam/20220919174612-task_scratch.org") t)
  '(ns-right-alternate-modifier 'meta)
  '(org-agenda-files (list org-directory))
  '(org-directory "~/files/org"))
