@@ -7,6 +7,8 @@ set number
 set hlsearch
 nohl
 
+set paste
+
 " Indentation settings.  Automatic when relevant and 4 spaces.
 set smartindent
 set tabstop=4
@@ -118,6 +120,7 @@ let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline_detect_paste=0
 
 set laststatus=2   " Always show the statusline
 set showtabline=2
@@ -129,3 +132,5 @@ let g:airline#extensions#branch#enabled = 1
 let g:go_fmt_command = "goimports"
 let g:go_auto_type_info = 1
 let g:go_auto_sameids = 1
+
+

@@ -28,3 +28,7 @@ brew 'tmux'
 # brew 'wdiff', {:args => ['with-default-names']}
 # brew 'wget'
 # brew 'gnu-getopt', {:args => ['with-default-names']}
+brew 'tree'
+cask 'rectangle'
+brew 'gawk'
+brew 'ack'

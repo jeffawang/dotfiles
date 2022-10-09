@@ -1,1 +1,3 @@
 . ~/.bashrc
+. "$HOME/.cargo/env"
+
