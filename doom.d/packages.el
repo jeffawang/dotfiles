@@ -35,11 +35,11 @@
 ;; Specify a `:branch' to install a package from a particular branch or tag.
 ;; This is required for some packages whose default branch isn't 'master' (which
 ;; our package manager can't deal with; see radian-software/straight.el#279)
-;(package! builtin-package :recipe (:branch "develop"))
+;; (package! format-all :recipe (:branch "0.5.0"))
 
 ;; Use `:pin' to specify a particular commit to install.
 ;(package! builtin-package :pin "1a2b3c4d5e")
-
+;; (package! format-all :pin "b18ed67a81b4d81d77f3bd7cf6e004e4e412b630")
 
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
@@ -54,3 +54,9 @@
            :repo "nobiot/org-transclusion"
            :branch "main"
            :files ("org-transclusion.el")))
+
+;; this version works for evil-window-next onto vterm.
+(package! evil :pin "26ec0cda1bcb899ae37086a1268a055484171519")
+;; (package! evil :pin "8d22345fa381a9fc541b9913b3a8e2fb178a29f4")
+
+(package! jupyter)

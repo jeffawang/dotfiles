@@ -42,6 +42,10 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
+(after! go-mode
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook #'lsp-organize-imports)
+)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -75,13 +79,30 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+
+
+;; function for when too many files are oppen (lol emacs)
+(defun file-notify-rm-all-watches ()
+  "Remove all existing file notification watches from Emacs."
+  (interactive)
+  (maphash
+   (lambda (key _value)
+     (file-notify-rm-watch key))
+   file-notify-descriptors))
+
+;; debugging
+(map! :after dap-mode
+      :n "SPC m x" #'dap-hydra
+      :n "SPC m d" #'dap-hydra
+      :n "<f8>" #'dap-hydra)
+
 ;;; :ui
 (map! (:when (featurep! :ui workspaces)
         (:when IS-MAC
           :g "s-J" #'+workspace/switch-right
           :g "s-K" #'+workspace/switch-left
-          :g "s-{" #'+workspace/switch-right
-          :g "s-}" #'+workspace/switch-left
+          :g "s-}" #'+workspace/switch-right
+          :g "s-{" #'+workspace/switch-left
           :g "s-j" #'evil-window-next
           :g "s-k" #'evil-window-prev
           :g "s-]" #'evil-window-next
@@ -94,24 +115,55 @@
           :g "s-)" #'evil-window-exchange
           :g "s-)" #'evil-window-split
           :g "s-t" #'+workspace/new
-          :g "s-T" #'+workspace/display
+          :g "s-T" #'vterm
+          :g "s-b" #'window-toggle-side-windows
+          :g "s-." #'lsp-execute-code-action
           )))
 
 ;;; :org bindings
 (map! (:when IS-MAC
+        :n "s-p" #'org-roam-node-find
+        :after evil-org
+        :map evil-org-mode-map
         :g "s-e" #'org-toggle-link-display
         :g "s-u" #'org-insert-link
         :g "s-U" #'org-cliplink
         :n "g l" #'org-down-element
-          ))
+        ))
+
+;; Set the variable pitch face
+(set-face-attribute 'default nil :font "Hack" :height 180)
+(set-face-attribute 'variable-pitch nil :family "Cantarell")
+
+  ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
+  (custom-theme-set-faces
+   'user
+   '(org-todo ((t (:inherit fixed-pitch))))
+   '(org-date ((t (:inherit fixed-pitch))))
+   '(org-block ((t (:inherit fixed-pitch))))
+   '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-document-info ((t (:foreground "dark orange"))))
+   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+   '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+   ;; '(org-link ((t (:foreground "royal blue" :underline t))))
+   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-property-value ((t (:inherit fixed-pitch))) t)
+   '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+   '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+   '(line-number ((t (:inherit fixed-pitch))))
+   '(line-number-current-line ((t (:inherit fixed-pitch)))))
 
 (after! org
   (setq org-roam-directory "~/files/org/roam") (setq org-roam-index-file "~/files/org/roam/index.org")
   )
 
-(custom-set-variables
- '(org-directory "~/files/org")
- )
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+
+(setq exec-path (append exec-path '("/Users/jeffwang/.nvm/versions/node/v18.11.0/bin/")))
+
+(custom-set-variables '(org-directory "~/files/org") )
 
 (after! org
   (setq org-todo-keywords
@@ -127,12 +179,12 @@
           ("[?]" . +org-todo-cancel)
           ))
 
-  (setq org-agenda-files '("~/files/org/" "~/files/org/roam/" "~/files/org/roam/daily/" "~/.emacs.d"))
+  (setq org-agenda-files '("~/files/org/roam/" "~/files/org/" "~/files/org/roam/daily/" "~/.emacs.d"))
   (setq ;;org-bullets-bullet-list '("·")
-        org-superstar-headline-bullets-list '("⁖")
-        org-ellipsis " ▾ "
-        )
-)
+   org-superstar-headline-bullets-list '("⁖")
+   org-ellipsis " ▾ "
+   )
+  )
 
 ;; https://github.com/zaiste/.doom.d/blob/309515418eca591ed07a1d5f3cdf6710f712ec03/config.el
 
@@ -143,9 +195,9 @@
   ;; (set-face-attribute 'org-code nil
   ;;                     :foreground "#a9a1e1"
   ;;                     :background nil)
-  (set-face-attribute 'org-date nil
-                      :foreground "#5B6268"
-                      :background nil)
+  ;; (set-face-attribute 'org-date nil
+  ;;                     :foreground "#5B6268"
+  ;;                     :background nil)
   (set-face-attribute 'org-level-1 nil
                       :foreground "steelblue2"
                       :background nil
@@ -181,7 +233,14 @@
                       :background nil
                       :height 1.5
                       :weight 'bold)
-  (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
+  )
+
+(use-package org-fancy-priorities
+  :ensure t
+  :hook
+  (org-mode . org-fancy-priorities-mode)
+  :config
+  (setq org-fancy-priorities-list '("!!!" "!!" "!" "D")))
 
 ;; Log the done completion time when a thing is marked as done.
 (setq org-log-done 'time)
@@ -191,6 +250,21 @@
  '(mac-right-option-modifier 'meta))
 
 
+
+(setq doom-font (font-spec :family "Source Code Pro" :size 12)
+      doom-big-font (font-spec :family "Source Code Pro" :size 24)
+      ;;doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
+                                        ;doom-unicode-font (font-spec :family "JuliaMono")
+                                        ;doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
+      )
+
+;; ;; dap (debugging)
+;; (after! dap-mode
+;;   (setq dap-auto-configure-features `(sessions locals tooltip))
+;;   (setq lsp-enable-dap-auto-configure nil)
+;;   )
+(setq dap-auto-configure-features '(sessions locals controls tooltip))
+(setq lsp-enable-dap-auto-configure nil)
 
 ;; ;; ==========================================================
 ;; ;; Add org-roam stuff (eg. dailies) to org agenda
@@ -225,3 +299,21 @@
 ;; (advice-add 'org-agenda-files :filter-return #'dynamic-agenda-files-advice)
 ;; (add-to-list 'org-after-todo-state-change-hook 'update-dynamic-agenda-hook t)
 ;; ;; ==========================================================
+
+
+;; (org-babel-do-load-languages
+;;  'org-babel-load-languages
+;;  '((emacs-lisp . t) ;; Other languages
+;;    (shell . t)
+;;    ;; Python & Jupyter
+;;    (python . t)
+;;    (jupyter . t)))
+
+;; (use-package! org-transclusion
+;;   :after org
+;;   :init
+;;   (map!
+;;    :map global-map "<f12>" #'org-transclusion-add
+;;    :leader
+;;    :prefix "n"
+;;    :desc "Org Transclusion Mode" "t" #'org-transclusion-mode))
