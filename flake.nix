@@ -19,6 +19,12 @@
         inherit pkgs;
       };
     in {
+      apps.${system} = {
+        homeMgr = {
+          type = "app";
+          program = "${home-manager.packages.${system}.default}/bin/home-manager";
+        };
+      };
       homeConfigurations = {
         "jeffwang" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;

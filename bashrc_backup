@@ -288,6 +288,7 @@ export PATH=$PATH:$VOLTUS/bin
 if [[ "${PYENV_ROOT:-""}" == "" ]]; then
   export PYENV_ROOT=$HOME/.pyenv
   export PATH=$PYENV_ROOT/bin:$PATH
+  eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
@@ -303,7 +304,7 @@ export PATH="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin:
 
 . "/opt/homebrew/opt/asdf/libexec/asdf.sh"
 
-# . "/opt/homebrew/opt/asdf/etc/bash_completion.d/asdf.bash"
+. "/opt/homebrew/opt/asdf/etc/bash_completion.d/asdf.bash"
 
 . ~/.bash/voltus.sh
 . ~/.bash/goenv.sh
@@ -312,12 +313,3 @@ export PATH="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin:
 export PATH="$PATH:$HOME/.cargo/bin"
 
 eval "$(direnv hook bash)"
-
-if [[ -n "$NVIM" ]]; then
-  function nvo() {
-    f="$(realpath "$1")"
-    if [[ -f "$f" || -d "$f" ]]; then
-      echo -e "\033]51;${f}\007"
-    fi
-  }
-fi

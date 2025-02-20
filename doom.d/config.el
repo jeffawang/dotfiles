@@ -1,4 +1,5 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+(setq projectile-completion-system 'default)
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -200,6 +201,10 @@
       :g "z z" #'zoom-window-zoom
       :n ">" #'projectile-find-file-in-directory
       )
+
+(setq prettier-js-args '(
+                         "--tab-width" "2"
+                         ))
 
 (custom-set-variables
  '(zoom-window-mode-line-color "DarkGreen"))
@@ -573,3 +578,20 @@ name as well to trigger updates"
 
 ;; need to run this later for it to not break frame size for some reason
 (run-at-time nil nil (cmd! (tab-bar-mode +1)))
+
+(use-package! astro-ts-mode
+  :after treesit-auto
+  :init
+  (when (modulep! +lsp)
+    (add-hook 'astro-ts-mode-hook #'lsp! 'append))
+  :config
+  (global-treesit-auto-mode)
+  (let ((astro-recipe (make-treesit-auto-recipe
+                       :lang 'astro
+                       :ts-mode 'astro-ls-mode
+                       :url "https://github.com/virchau13/tree-sitter-astro"
+                       :revision "master"
+                       :source-dir "src")))
+    (add-to-list 'treesit-auto-recipe-list astro-recipe))
+  :after treesit-auto
+  )

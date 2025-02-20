@@ -1,0 +1,11 @@
+- add brew thing
+- Brewfile: updated caskroom/cask to homebrew/cask
+- brew install --cask emacs
+
+
+- brew install --cask aws-vault
+- brew install --cask rectangle
+- brew install jq
+- brew install --cask visual-studio-code
+- brew install ack
+- brew install tree

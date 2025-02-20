@@ -134,3 +134,10 @@ let g:go_auto_type_info = 1
 let g:go_auto_sameids = 1
 
 
+function! Tapi_vit(bufnum, arglist)
+   let currfile = get(a:arglist, 0, '')
+   if empty(currfile)
+     return
+   endif
+   execute 'e' currfile
+endfunction
