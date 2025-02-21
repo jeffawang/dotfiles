@@ -497,26 +497,40 @@ require('lazy').setup({
           cwd = cwd,
           find_command = { 'fd', '-d', '1' },
           prompt_prefix = cwd,
-          entry_maker = make_entry.gen_from_file { cwd = cwd },
-          -- entry_maker = function(entry)
-          --   print(entry)
-          --   return {
-          --     value = entry,
-          --     display = entry,
-          --     ordinal = entry,
-          --   }
-          -- end,
+          entry_maker = make_entry.gen_from_file { cwd = cwd, path_display = { 'smart' } },
           attach_mappings = function(prompt_bufnr, map)
-            actions.select_default:replace(function()
-              actions.close(prompt_bufnr)
+            local select_func = function()
+              local sel = actions_state.get_selected_entry()
+              local path = Path:new { sel.cwd, sel.value }
+
+              if path:is_dir() then
+                Blep(path:absolute())
+              else
+                actions.file_edit(prompt_bufnr, path:absolute())
+              end
+            end
+
+            map('i', '<tab>', function()
               local sel = actions_state.get_selected_entry()
               local path = Path:new { sel.cwd, sel.value }
               if path:is_dir() then
                 Blep(path:absolute())
+              else
+                -- actions_state.get_current_picker(prompt_bufnr):set_prompt(sel.value)
+                actions.file_edit(prompt_bufnr, path:absolute())
               end
-              -- print(vim.inspect(sel))
-              print(vim.inspect(Path:new { sel.cwd, sel.value }))
-              -- print(vim.inspect(Path:new({ sel.cwd, sel.value }):absolute()))
+            end)
+            actions.select_default:replace(select_func)
+
+            local bs = vim.api.nvim_replace_termcodes('<bs>', true, false, true)
+            map('i', '<bs>', function()
+              local sel = actions_state.get_current_line()
+              if #sel == 0 then
+                local path = Path:new { cwd }
+                Blep(path:parent():absolute() .. '/')
+              else
+                vim.api.nvim_feedkeys(bs, 'n', false)
+              end
             end)
             return true
           end,
