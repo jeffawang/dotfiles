@@ -376,7 +376,12 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
       { 'smartpde/telescope-recent-files' },
       -- { 'fdschmidt93/telescope-egrepify.nvim' },
-      { dir = '~/code/github/jeffawang/telescope-egrepify.nvim' },
+      { 'jeffawang/telescope-egrepify.nvim', dev = true },
+      { 'jeffawang/teleco.nvim', dev = true },
+      {
+        'nvim-telescope/telescope-file-browser.nvim',
+        dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+      },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -453,13 +458,29 @@ require('lazy').setup({
             results_ts_hl = false,
             filename_hl = 'EgrepifySuffix',
           },
+          ['teleco'] = {
+            lol = true,
+          },
+          ['file_browser'] = {
+            hide_parent_dir = true,
+            use_fd = true,
+            mappings = {
+              ['i'] = {
+                ['<tab>'] = require('telescope.actions').select_default,
+              },
+            },
+          },
         },
       }
 
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
-      pcall(require('telescope').load_extension, 'egrepify')
+      pcall(require('telescope').load_extension, '')
+      require('telescope').load_extension 'egrepify'
+
+      -- personal
+      -- require('telescope').load_extension 'teleco'
 
       -- See `:help telescope.builtin`
       local utils = require 'telescope.utils'
@@ -473,73 +494,59 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      -- vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sd', function()
-        builtin.live_grep { cwd = utils.buffer_dir() }
-      end, { desc = '[S]earch open buffer [D]irectory' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>bb', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
-      function MaybeBlep(prompt_bufnr)
-        local selected_entry = actions_state.get_selected_entry()
-        local val = selected_entry.value
-        if string.sub(val, -1) == '/' then
-          Blep(val)
-        end
-        actions.close(prompt_bufnr)
-      end
+      local telescope = require 'telescope'
+      local fb = telescope.extensions.file_browser
+      local teleco = telescope.extensions.teleco
+      local egrepify = telescope.extensions.egrepify
+      local fb_action = require 'telescope._extensions.file_browser.actions'
+      local action_set = require 'telescope.actions.set'
 
-      Path = require 'plenary.path'
+      vim.keymap.set('n', '<leader>.', teleco.teleco, { desc = 'Find file from buffer current dir' })
 
-      function Blep(cwd)
-        builtin.find_files {
-          cwd = cwd,
-          find_command = { 'fd', '-d', '1' },
-          prompt_prefix = cwd,
-          entry_maker = make_entry.gen_from_file { cwd = cwd, path_display = { 'smart' } },
+      vim.keymap.set('n', '<leader>sd', function()
+        local path = utils.buffer_dir()
+        local basename = vim.fs.basename(path)
+        egrepify.egrepify { cwd = path, prompt_prefix = string.format('Search (%s): ', basename) }
+      end, { desc = '[S]earch open buffer [D]irectory' })
+
+      vim.keymap.set('n', '<leader>sD', function()
+        teleco.teleco {
+          only_dirs = true,
           attach_mappings = function(prompt_bufnr, map)
-            local select_func = function()
-              local sel = actions_state.get_selected_entry()
-              local path = Path:new { sel.cwd, sel.value }
-
-              if path:is_dir() then
-                Blep(path:absolute())
-              else
-                actions.file_edit(prompt_bufnr, path:absolute())
-              end
-            end
-
-            map('i', '<tab>', function()
-              local sel = actions_state.get_selected_entry()
-              local path = Path:new { sel.cwd, sel.value }
-              if path:is_dir() then
-                Blep(path:absolute())
-              else
-                -- actions_state.get_current_picker(prompt_bufnr):set_prompt(sel.value)
-                actions.file_edit(prompt_bufnr, path:absolute())
-              end
-            end)
-            actions.select_default:replace(select_func)
-
-            local bs = vim.api.nvim_replace_termcodes('<bs>', true, false, true)
-            map('i', '<bs>', function()
-              local sel = actions_state.get_current_line()
-              if #sel == 0 then
-                local path = Path:new { cwd }
-                Blep(path:parent():absolute() .. '/')
-              else
-                vim.api.nvim_feedkeys(bs, 'n', false)
-              end
+            action_set.select:replace(function()
+              local path = actions_state.get_selected_entry().path
+              local basename = vim.fs.basename(path)
+              egrepify.egrepify { cwd = path, prompt_prefix = string.format('Search (%s): ', basename) }
             end)
             return true
           end,
         }
-      end
-
-      vim.keymap.set('n', '<leader>.', function()
-        Blep(utils.buffer_dir() .. '/')
       end, { desc = 'Find file from buffer current dir' })
+      -- vim.keymap.set('n', '<leader>.', function()
+      --   fb.file_browser()
+      -- end, { desc = 'Find file from buffer current dir' })
+      --
+      -- vim.keymap.set('n', '<leader>sD', function()
+      --   fb.file_browser {
+      --     path = '%:p:h',
+      --     files = false,
+      --     attach_mappings = function(prompt_bufnr, map)
+      --       map('i', '<tab>', function()
+      --         fb_action.open_dir(prompt_bufnr, _)
+      --       end)
+      --
+      --       action_set.select:replace(function()
+      --         local selected_entry = actions_state.get_selected_entry()
+      --         egrepify.egrepify { cwd = selected_entry.path }
+      --       end)
+      --       return true
+      --     end,
+      --   }
+      -- end, { desc = 'Find file from buffer current dir' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -579,6 +586,7 @@ require('lazy').setup({
       'nvim-telescope/telescope.nvim', -- optional
       -- 'ibhagwan/fzf-lua', -- optional
       -- 'echasnovski/mini.pick', -- optional
+      'jeffawang/teleco.nvim',
     },
     config = function()
       local neogit = require 'neogit'
@@ -1220,34 +1228,39 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
+  dev = {
+    path = '~/code/nvim-dev',
+    patterns = { 'jeffawang' },
+  },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+-- vim.api.nvim_create_autocmd({ 'TermRequest' }, {
+--   desc = 'Handles OSC 7 dir change requests',
+--   callback = function(ev)
+--     if string.sub(vim.v.termrequest, 1, 4) == '\x1b]7;' then
+--       local dir = string.gsub(vim.v.termrequest, '\x1b]7;file://[^/]*', '')
+--       if vim.fn.isdirectory(dir) == 0 then
+--         vim.notify('invalid dir: ' .. dir)
+--         return
+--       end
+--       vim.api.nvim_buf_set_var(ev.buf, 'osc7_dir', dir)
+--       if vim.o.autochdir and vim.api.nvim_get_current_buf() == ev.buf then
+--         vim.cmd.cd(dir)
+--       end
+--     end
+--   end,
+-- })
 
-vim.api.nvim_create_autocmd({ 'TermRequest' }, {
-  desc = 'Handles OSC 7 dir change requests',
-  callback = function(ev)
-    if string.sub(vim.v.termrequest, 1, 4) == '\x1b]7;' then
-      local dir = string.gsub(vim.v.termrequest, '\x1b]7;file://[^/]*', '')
-      if vim.fn.isdirectory(dir) == 0 then
-        vim.notify('invalid dir: ' .. dir)
-        return
-      end
-      vim.api.nvim_buf_set_var(ev.buf, 'osc7_dir', dir)
-      if vim.o.autochdir and vim.api.nvim_get_current_buf() == ev.buf then
-        vim.cmd.cd(dir)
-      end
-    end
-  end,
-})
-vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'DirChanged' }, {
-  callback = function(_)
-    if vim.b.osc7_dir and vim.fn.isdirectory(vim.b.osc7_dir) == 1 then
-      vim.cmd.cd(vim.b.osc7_dir)
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'DirChanged' }, {
+--   callback = function(_)
+--     if vim.b.osc7_dir and vim.fn.isdirectory(vim.b.osc7_dir) == 1 then
+--       vim.cmd.cd(vim.b.osc7_dir)
+--     end
+--   end,
+-- })
 
 -- when receiving OSC 51 (kinda arbitrarily chosen), open the file specified in the message
 vim.api.nvim_create_autocmd({ 'TermRequest' }, {

@@ -1,5 +1,7 @@
 return {
-  dir = '~/code/github/jeffawang/project.nvim',
+  'jeffawang/project.nvim',
+  enabled = true,
+  dev = true,
   keys = {
     { '<leader>pp', '<cmd>Telescope projects<cr>' },
     {
