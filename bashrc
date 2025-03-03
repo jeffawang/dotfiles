@@ -191,54 +191,10 @@ function append_paths() {
 
 CODEPATH="$HOME/code/voltus"
 alias qcd="cd $CODEPATH/voltus"
-export RBENV_ROOT="$HOME/.rbenv"
-#export PYENV_ROOT="$HOME/.pyenv"
-
-if [ -z "$PATH_EXPANDED" ]; then
-    append_paths $CODEPATH/puppet-tools $HOME/go
-    #append_paths $PYENV_ROOT/bin $RBENV_ROOT/bin $HOME/bin
-    export PATH_EXPANDED=1
-fi
-
-eval "$(which rbenv > /dev/null 2>&1 && rbenv init -)"
-
-function ssh-ec2() {
-    aws ec2 describe-instances --instance-id $1 --query Reservations[].Instances[].PrivateIpAddress --output=text
-}
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
-
-function note {
-    local notepath
-    notepath=$HOME/files/notes/scratch
-    if [ "${#}" == 0 ]; then
-        [ -f $notepath ] && cat $notepath
-    elif [ "${*}" == "-a" ]; then
-        cat $notepath.* $notepath
-    elif [ "${*}" == "-e" ]; then
-        vim $notepath
-    elif [ "${*}" == "-1" ]; then
-        tail -r $notepath | sed -n -e '1,/^--- /p' | tail -r
-    elif [ "${*}" == "-r" ]; then
-        mv $notepath $notepath.$(date +'%Y-%m-%d-%H%M%S')
-        touch $notepath
-    elif [ "${*}" == "-l" ]; then
-        basename -a $notepath*
-    elif [ "${*}" == "-" ]; then
-        echo "--- $(date) ---" >> $notepath
-        cat >> $notepath
-        echo >> $notepath
-    else
-        echo "--- $(date) ---" >> $notepath
-        echo "${*}" >> $notepath
-        echo >> $notepath
-    fi
-}
-
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
-append_paths $JAVA_HOME/bin
 
 if uname -a | grep -q Microsoft; then
     export LS_COLORS='ow=01;36;40'
@@ -256,48 +212,8 @@ stty -ixon
 # alias aws='aws-vault exec voltus -- /usr/local/bin/aws'
 append_paths "$HOME/.emacs.d/bin"
 
-function vault_login {
-  if [[ -z "${VAULT_GITHUB_TOKEN}" ]]; then
-      >&2 echo "VAULT_GITHUB_TOKEN not provided"
-      return 1
-  fi
-
-  case "$1" in
-  "dev")
-      VAULT_ENV="$1"
-      VAULT_ADDR=http://vault.dev.voltus.
-      ;;
-  "prod")
-      VAULT_ENV="$1"
-      VAULT_ADDR=http://vault.prod.voltus.
-      ;;
-  *)
-      >&2 echo "Invalid arg; expected dev or prod"
-      return 2
-      ;;
-  esac
-  echo "Logging into $VAULT_ADDR"
-  VAULT_TOKEN=$(VAULT_ADDR="$VAULT_ADDR" vault login -token-only -method=github token="${VAULT_GITHUB_TOKEN}")
-  [[ $? -eq 0 ]] && export VAULT_TOKEN VAULT_ADDR VAULT_ENV && echo "Success! Set VAULT_TOKEN, VAULT_ADDR, and VAULT_ENV env vars."
-}
-
 export VOLTUS=$HOME/code/voltus/voltus
 export PATH=$PATH:$VOLTUS/bin
-
-# Enable pyenv
-if [[ "${PYENV_ROOT:-""}" == "" ]]; then
-  export PYENV_ROOT=$HOME/.pyenv
-  export PATH=$PYENV_ROOT/bin:$PATH
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
-
-alias ec='emacsclient -n'
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export PATH="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin:$PATH"
 
@@ -305,13 +221,12 @@ export PATH="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin:
 
 # . "/opt/homebrew/opt/asdf/etc/bash_completion.d/asdf.bash"
 
-. ~/.bash/voltus.sh
-. ~/.bash/goenv.sh
 . "$HOME/.cargo/env"
 
 export PATH="$PATH:$HOME/.cargo/bin"
 
-eval "$(direnv hook bash)"
+# Commented out because it kills the shell with ctrl-c... 
+# eval "$(direnv hook bash)"
 
 if [[ -n "$NVIM" ]]; then
   function nvo() {
@@ -321,3 +236,6 @@ if [[ -n "$NVIM" ]]; then
     fi
   }
 fi
+
+. ~/.bash/voltus.sh
+. ~/.bash/goenv.sh
