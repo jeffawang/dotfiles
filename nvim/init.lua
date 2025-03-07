@@ -80,6 +80,19 @@ vim.keymap.set('n', '<leader>pt', '<cmd>sp term://$SHELL<cr>', { desc = 'open a 
 vim.keymap.set('n', '<leader>pT', '<cmd>e term://$SHELL<cr>', { desc = 'open a terminal in a new split' })
 vim.keymap.set('n', '<leader>tt', '<cmd>tabnew<cr><cmd>e term://$SHELL<cr>', { desc = 'open a terminal in a new terminal' })
 
+vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Rename' })
+
+-- exit with code 1. Can be used with this function to restart nvim quickly:
+-- function nvr() {
+--     while true; do
+--         nvim "$@"
+--         if [ $? -ne 1 ]; then
+--             break
+--         fi
+--     done
+-- }
+vim.keymap.set('n', '<leader>qr', '<cmd>cq 1<cr>')
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -148,7 +161,7 @@ require('lazy').setup({
         desc = 'Buffer Diagnostics (Trouble)',
       },
       {
-        '<leader>cs',
+        '<leader>cS',
         '<cmd>Trouble symbols toggle focus=true<cr>',
         desc = 'Symbols (Trouble)',
       },
@@ -226,230 +239,13 @@ require('lazy').setup({
       },
     },
   },
-
-  { -- Fuzzy Finder (files, lsp, etc)
-    'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
-    branch = '0.1.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      { -- If encountering errors, see telescope-fzf-native README for installation instructions
-        'nvim-telescope/telescope-fzf-native.nvim',
-
-        -- `build` is used to run some command when the plugin is installed/updated.
-        -- This is only run then, not every time Neovim starts up.
-        build = 'make',
-
-        -- `cond` is a condition used to determine whether this plugin should be
-        -- installed and loaded.
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-      { 'smartpde/telescope-recent-files' },
-      { 'jeffawang/telescope-egrepify.nvim', dev = true },
-      { 'jeffawang/projects.nvim', dev = true },
-      { 'jeffawang/teleco.nvim', dev = true },
-      { -- TODO: remove this?
-        'nvim-telescope/telescope-file-browser.nvim',
-        dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-      },
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-    },
-    config = function()
-      -- NOTE: List keymaps in telescope picker:
-      --  - Insert mode: <c-/>
-      --  - Normal mode: ?
-      local telescope = require 'telescope'
-      require('telescope').setup {
-        defaults = require('telescope.themes').get_ivy {
-          -- sorting_strategy = 'ascending',
-          -- layout_strategy = 'bottom_pane',
-          layout_config = {
-            anchor = 'S',
-          },
-          -- border = false,
-          scroll_strategy = 'limit',
-          mappings = {
-            i = {
-              ['<c-d>'] = require('telescope.actions').results_scrolling_down,
-              ['<c-u>'] = require('telescope.actions').results_scrolling_up,
-            },
-            n = {
-              ['<c-d>'] = require('telescope.actions').results_scrolling_down,
-              ['<c-u>'] = require('telescope.actions').results_scrolling_up,
-              ['<leader>lp'] = require('telescope.actions.layout').toggle_preview,
-              ['<leader>ll'] = require('telescope.actions.layout').cycle_layout_next,
-
-              -- Use `\` to put the cursor in the preview window
-              ['\\'] = function(prompt_bufnr)
-                -- inspired by https://github.com/nvim-telescope/telescope.nvim/issues/2778#issuecomment-2202572413
-                local action_state = require 'telescope.actions.state'
-                local picker = action_state.get_current_picker(prompt_bufnr)
-                local prompt_win = picker.prompt_win
-                local previewer = picker.previewer
-                local winid = previewer.state.winid
-                local bufnr = previewer.state.bufnr
-                vim.keymap.set('n', '<escape>', function()
-                  vim.cmd(string.format('noautocmd lua vim.api.nvim_set_current_win(%s)', prompt_win))
-                end, { buffer = bufnr })
-                vim.cmd(string.format('noautocmd lua vim.api.nvim_set_current_win(%s)', winid))
-                -- api.nvim_set_current_win(winid)
-              end,
-            },
-          },
-        },
-
-        extensions = {
-          ['fzf'] = {
-            fuzzy = false,
-          },
-          ['ui-select'] = {
-            require('telescope.themes').get_dropdown(),
-          },
-          -- https://github.com/fdschmidt93/telescope-egrepify.nvim?tab=readme-ov-file#configuration
-          ['egrepify'] = {
-            permutations = true,
-            results_ts_hl = false,
-            filename_hl = 'EgrepifySuffix',
-          },
-          ['teleco'] = {
-            lol = true,
-          },
-          ['projects_nvim'] = {},
-          ['file_browser'] = {
-            hide_parent_dir = true,
-            use_fd = true,
-            mappings = {
-              ['i'] = {
-                ['<tab>'] = require('telescope.actions').select_default,
-              },
-            },
-          },
-        },
-      }
-
-      -- Enable Telescope extensions if they are installed
-      for _, v in pairs {
-        'fzf',
-        'ui-select',
-        'egrepify',
-        'teleco',
-        'projects_nvim',
-      } do
-        local success, result, _ = pcall(telescope.load_extension, v)
-        if not success then
-          error(string.format('Failed to load telescope extension %s: %s', v, result), 1)
-        end
-      end
-
-      -- See `:help telescope.builtin`
-      local utils = require 'telescope.utils'
-      local builtin = require 'telescope.builtin'
-      local actions_state = require 'telescope.actions.state'
-
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader>bb', builtin.buffers, { desc = 'Find existing [B]uffers' })
-
-      vim.keymap.set('n', '<leader>sm', builtin.marks, { desc = '[S]earch [M]arks' })
-
-      local action_set = require 'telescope.actions.set'
-      local egrepify = telescope.extensions.egrepify
-
-      vim.keymap.set('n', '<leader>sd', function()
-        local path = utils.buffer_dir()
-        local basename = vim.fs.basename(path)
-        egrepify.egrepify {
-          cwd = path,
-          prompt_title = { { pos = 'NW', text = string.format('Search Directory (%s)', path) } },
-          -- prompt_prefix = string.format('Search (%s): ', basename),
-        }
-      end, { desc = '[S]earch open buffer [D]irectory' })
-
-      do
-        local teleco = telescope.extensions.teleco
-        vim.keymap.set('n', '<leader>.', function()
-          teleco.teleco {
-            prompt_title = { { pos = 'NW', text = 'Find Files' } },
-          }
-        end, { desc = 'Find file from buffer current dir' })
-        vim.keymap.set('n', '<leader>sD', function()
-          teleco.teleco {
-            only_dirs = true,
-            prompt_title = { { pos = 'NW', text = 'Choose Directory' } },
-            attach_mappings = function(prompt_bufnr, map)
-              action_set.select:replace(function()
-                local path = actions_state.get_selected_entry().path
-                local basename = vim.fs.basename(path)
-                egrepify.egrepify {
-                  cwd = path,
-                  prompt_title = { { pos = 'NW', text = string.format('Search Directory (%s)', path) } },
-                  -- prompt_prefix = string.format('Search (%s): ', basename),
-                }
-              end)
-              return true
-            end,
-          }
-        end, { desc = 'Find file from buffer current dir' })
-      end
-
-      do
-        local projects_nvim = telescope.extensions.projects_nvim
-        local project = require 'projects_nvim.project'
-        vim.keymap.set('n', '<leader>pp', function()
-          projects_nvim.projects_nvim {
-            prompt_title = { { pos = 'NW', text = 'Recent Projects' } },
-          }
-        end, { desc = 'select from a list of projects' })
-
-        vim.keymap.set('n', '<leader><space>', function()
-          builtin.find_files { cwd = project.last_project, prompt_title = { { pos = 'NW', text = 'Find Files' } } }
-        end, { desc = 'find files in project' })
-
-        vim.keymap.set('n', '<leader>sp', function()
-          local basename = vim.fs.basename(project.last_project)
-          egrepify.egrepify {
-            cwd = project.last_project,
-            prompt_title = { { pos = 'NW', text = string.format('Search Project (%s)', basename) } },
-            -- prompt_prefix = string.format('Search Project (%s): ', basename),
-          }
-        end, { desc = 'select from a list of projects' })
-      end
-
-      -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
-
-      vim.keymap.set('n', '<leader>s/', function()
-        builtin.live_grep {
-          grep_open_files = true,
-          prompt_title = 'Live Grep in Open Files',
-        }
-      end, { desc = '[S]earch [/] in Open Files' })
-
-      -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = '[S]earch [N]eovim files' })
-      vim.keymap.set('n', '<leader>fp', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config', default_text = 'init.lua' }
-      end, { desc = '[F]earch Neovim files' })
-    end,
-  },
-
+  { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   {
     'NeogitOrg/neogit',
     dependencies = {
       'nvim-lua/plenary.nvim', -- required
       'sindrets/diffview.nvim', -- optional - Diff integration
-      'nvim-telescope/telescope.nvim', -- optional
+      -- 'nvim-telescope/telescope.nvim', -- optional
     },
     config = function()
       local neogit = require 'neogit'
@@ -507,32 +303,6 @@ require('lazy').setup({
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          -- Jump to the definition of the word under your cursor.
-          --  This is where a variable was first declared, or where a function is defined, etc.
-          --  To jump back, press <C-t>.
-          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-
-          -- Find references for the word under your cursor.
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-
-          -- Jump to the implementation of the word under your cursor.
-          --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-
-          -- Jump to the type of the word under your cursor.
-          --  Useful when you're not sure what type a variable is and you want to see
-          --  the definition of its *type*, not where it was *defined*.
-          map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-          map('<leader>ct', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-
-          -- Fuzzy find all the symbols in your current document.
-          --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-
-          -- Fuzzy find all the symbols in your current workspace.
-          --  Similar to document symbols, except searches over your entire project.
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
@@ -544,7 +314,7 @@ require('lazy').setup({
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
           -- map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-          map('gD', require('telescope.builtin').lsp_references, '[G]oto [D]eclaration')
+          -- map('gD', require('telescope.builtin').lsp_references, '[G]oto [D]eclaration')
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -960,18 +730,11 @@ require('lazy').setup({
         },
       },
     },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
 
   {
     'nvim-treesitter/nvim-treesitter-context',
     opts = {
-      enable = true,
       mode = 'topline',
     },
   },
