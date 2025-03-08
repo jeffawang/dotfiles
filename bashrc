@@ -239,3 +239,12 @@ fi
 
 . ~/.bash/voltus.sh
 . ~/.bash/goenv.sh
+
+function nvr() {
+    while true; do
+        nvim "$@"
+        if [ $? -ne 1 ]; then
+            break
+        fi
+    done
+}
