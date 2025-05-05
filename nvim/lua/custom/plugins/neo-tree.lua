@@ -12,7 +12,7 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '\\', '<cmd>Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    -- { '\\', '<cmd>Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
     { '<leader>\\s', '<cmd>Neotree document_symbols<cr>', desc = 'NeoTree Document [S]ymbols' },
     { '<leader>\\b', '<cmd>Neotree buffers<cr>', desc = 'NeoTree [B]uffers' },
     { '<leader>\\g', '<cmd>Neotree git_status<cr>', desc = 'NeoTree [G]it status' },

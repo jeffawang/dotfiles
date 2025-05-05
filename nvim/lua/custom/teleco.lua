@@ -49,7 +49,10 @@ M.source = {
   finder = M.teleco,
   format = 'file',
   actions = {
-    blep = function(picker, item)
+    tabselect = function(picker, item)
+      if not item then
+        return
+      end
       if item.dir then
         M.cd_find(picker, item.path)
       else
@@ -58,15 +61,20 @@ M.source = {
       end
     end,
     bs = function(picker)
-      local parent = Path:new(picker.opts.cwd):parent():absolute()
-      M.cd_find(picker, parent)
+      if #picker.input.filter.pattern == 0 then
+        local parent = Path:new(picker.opts.cwd):parent():absolute()
+        M.cd_find(picker, parent)
+      else
+        local bs = vim.api.nvim_replace_termcodes('<bs>', true, false, true)
+        vim.api.nvim_feedkeys(bs, 'n', false)
+      end
     end,
   },
   win = {
     input = {
       keys = {
         ['<tab>'] = {
-          'blep',
+          'tabselect',
           mode = { 'n', 'i' },
         },
         ['<bs>'] = {

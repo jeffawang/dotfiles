@@ -5,24 +5,56 @@ local teleco = require 'custom.teleco'
 local tags = require 'custom.tags'
 
 local picker_overrides = {
+  ---comment
+  ---@param opts snacks.picker.Config
+  ---@return snacks.picker.Config
+  explorer = function(opts)
+    return vim.tbl_deep_extend('force', opts, {
+      actions = {
+        previous_window = function()
+          local keys = vim.api.nvim_replace_termcodes('<c-w>p', true, false, true)
+          vim.api.nvim_feedkeys(keys, 'n', false)
+        end,
+      },
+      win = {
+        input = { keys = {
+          ['\\'] = 'previous_window',
+        } },
+        list = { keys = {
+          ['\\'] = 'previous_window',
+        } },
+      },
+    })
+  end,
   grep = function(opts)
     return vim.tbl_deep_extend('force', opts, {
-      title = string.format('Grep (%s)', opts.cwd),
+      title = string.format('Grep (%s)', opts.cwd or vim.uv.cwd()),
     })
   end,
   teleco = function(opts)
     return vim.tbl_deep_extend('force', opts, {
-      title = string.format('Select File (%s)', opts.cwd),
+      title = string.format('Select File (%s)', opts.cwd or vim.uv.cwd),
     })
   end,
   files = function(opts)
-    return vim.tbl_deep_extend('force', opts, {
-      title = string.format('Files (%s)', opts.cwd),
-    })
+    if opts.cwd then
+      return vim.tbl_deep_extend('force', opts, {
+        title = string.format('Files (%s)', opts.cwd or vim.uv.cwd),
+      })
+    end
+    return opts
   end,
 }
 
 local function apply_picker_overrides(opts)
+  -- window nav stuff....
+  opts.win.input.keys['<C-J>'] = nil
+  opts.win.input.keys['<C-K>'] = nil
+  opts.win.input.keys['<C-H>'] = { 'toggle_hidden', mode = { 'i', 'n' } }
+  opts.win.list.keys['<C-J>'] = nil
+  opts.win.list.keys['<C-K>'] = nil
+  opts.win.input.keys['<C-H>'] = { 'toggle_hidden', mode = { 'i', 'n' } }
+
   if picker_overrides[opts.source] then
     return picker_overrides[opts.source](opts)
   end
@@ -36,7 +68,6 @@ local M = {
   'jeffawang/snacks.nvim',
   dev = true,
   keys = {
-    { '<leader><space>', snacks.picker.files },
     {
       '<leader>fp',
       function()
@@ -57,8 +88,7 @@ local M = {
       { desc = '[S]earch [N]eovim files' },
     },
 
-    -- TODO: figure out how to make this good
-
+    { '<leader><space>', snacks.picker.files },
     { '<leader>ss', snacks.picker.pick },
     { '<leader>sp', snacks.picker.grep },
     {
@@ -70,6 +100,21 @@ local M = {
         }
       end,
     },
+    {
+      '<leader>sD',
+      function()
+        local cwd = vim.fn.expand '%:p:h'
+        snacks.picker.pick('teleco', {
+          cwd = cwd,
+          only_dirs = true,
+          confirm = function(picker, item)
+            picker:close()
+            snacks.picker.pick('grep', item.path)
+          end,
+        })
+      end,
+    },
+
     {
       '<leader>pp',
       function()
@@ -109,21 +154,6 @@ local M = {
     },
 
     {
-      '<leader>sD',
-      function()
-        local cwd = vim.fn.expand '%:p:h'
-        snacks.picker.pick('teleco', {
-          cwd = cwd,
-          only_dirs = true,
-          confirm = function(picker, item)
-            picker:close()
-            snacks.picker.pick('grep', item.path)
-          end,
-        })
-      end,
-    },
-
-    {
       '<leader>.',
       function()
         local cwd = vim.fn.expand '%:p:h'
@@ -135,11 +165,50 @@ local M = {
       '<leader>/',
       snacks.picker.grep_buffers,
     },
+
+    {
+      '<leader>gs',
+      function()
+        snacks.picker.explorer {
+          tree = true,
+          finder = 'git_status',
+          format = 'git_status',
+        }
+      end,
+    },
+
+    {
+      '\\',
+      function()
+        local current_pickers = Snacks.picker.get { source = 'explorer' }
+        if #current_pickers > 0 then
+          current_pickers[1].list.win:focus()
+        else
+          snacks.picker.explorer()
+        end
+      end,
+    },
   },
   opts = {
     picker = {
       config = apply_picker_overrides,
       actions = {
+        unblah = function(picker, _, _)
+          local sources = { 'teleco', 'files', 'grep' }
+          local next = sources[1]
+          local curr = picker.init_opts.source
+
+          for i, v in ipairs(sources) do
+            if v == curr then
+              next = sources[(i - 1) % #sources]
+            end
+          end
+
+          local cwd = picker.opts.cwd or vim.uv.cwd()
+
+          picker:close()
+          snacks.picker.pick(next, { cwd = cwd })
+        end,
         blah = function(picker, _, _)
           local sources = { 'teleco', 'files', 'grep' }
           local next = sources[1]
@@ -162,6 +231,10 @@ local M = {
           keys = {
             ['<C-;>'] = {
               'blah',
+              mode = { 'i', 'n' },
+            },
+            ['<C-:>'] = {
+              'unblah',
               mode = { 'i', 'n' },
             },
           },

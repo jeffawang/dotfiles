@@ -59,8 +59,8 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
-vim.keymap.set('n', '<C-j>', '<C-w>w', { desc = 'Move focus to the next window' })
-vim.keymap.set('n', '<C-k>', '<C-w>W', { desc = 'Move focus to the previous window' })
+vim.keymap.set({ 'i', 'n' }, '<C-j>', '<C-w>w', { desc = 'Move focus to the next window' })
+vim.keymap.set({ 'i', 'n' }, '<C-k>', '<C-w>W', { desc = 'Move focus to the previous window' })
 vim.keymap.set('n', '<C-S-J>', '<cmd>tabn<cr>', { desc = 'Move focus to the next tab' })
 vim.keymap.set('n', '<C-S-K>', '<cmd>tabp<cr>', { desc = 'Move focus to the previous tab' })
 
@@ -79,8 +79,6 @@ vim.keymap.set('n', '<leader>ot', '<cmd>sp term://%:p:h//$SHELL<cr>', { desc = '
 vim.keymap.set('n', '<leader>pt', '<cmd>sp term://$SHELL<cr>', { desc = 'open a terminal in a new split' })
 vim.keymap.set('n', '<leader>pT', '<cmd>e term://$SHELL<cr>', { desc = 'open a terminal in a new split' })
 vim.keymap.set('n', '<leader>tt', '<cmd>tabnew<cr><cmd>e term://$SHELL<cr>', { desc = 'open a terminal in a new terminal' })
-
-vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Rename' })
 
 -- exit with code 1. Can be used with this function to restart nvim quickly:
 -- function nvr() {
@@ -245,7 +243,6 @@ require('lazy').setup({
     dependencies = {
       'nvim-lua/plenary.nvim', -- required
       'sindrets/diffview.nvim', -- optional - Diff integration
-      -- 'nvim-telescope/telescope.nvim', -- optional
     },
     config = function()
       local neogit = require 'neogit'
@@ -306,6 +303,7 @@ require('lazy').setup({
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('<leader>cr', vim.lsp.buf.rename, 'Rename')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
