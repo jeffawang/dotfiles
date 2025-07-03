@@ -29,7 +29,8 @@ function __git_ps1() {
             PS1_OUTPUT="${PS1_OUTPUT}$(__color green)${__PS1_GIT_BRANCH}$(__color) "
         fi
         PS1_OUTPUT="${PS1_OUTPUT}$(git rev-parse --short HEAD 2>/dev/null) "
-        if [[ -n $(git status -s 2>/dev/null) ]]; then
+        # if [[ -n $(git status -s 2>/dev/null) ]]; then
+        if ! git diff --quiet || ! git diff --cached --quiet; then
             PS1_OUTPUT="${PS1_OUTPUT}$(__color yellow)✗ $(__color)"
         fi
     fi
