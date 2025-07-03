@@ -8,7 +8,6 @@ return {
     'nvim-telescope/telescope.nvim',
     'jeffawang/telescope-egrepify.nvim',
   },
-  -- opts = {},
   config = function()
     require('projects_nvim').setup {
       manual_mode = false,

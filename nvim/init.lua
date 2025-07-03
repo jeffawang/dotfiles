@@ -18,7 +18,7 @@ vim.opt.scrolloff = 5
 --   vim.opt.clipboard = 'unnamedplus'
 -- end)
 
-vim.opt.autochdir = false
+vim.opt.autochdir = true
 
 vim.opt.breakindent = true
 vim.opt.undofile = true

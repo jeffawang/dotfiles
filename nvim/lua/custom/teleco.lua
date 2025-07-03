@@ -1,4 +1,5 @@
 local scan = require 'plenary.scandir'
+local explorer_actions = require 'snacks.explorer.actions'
 local Path = require 'plenary.path'
 
 local M = {}
@@ -17,12 +18,19 @@ end
 function M.transform_path(path, cwd)
   local file = Path:new(path):make_relative(cwd)
 
+  local is_dir = vim.fn.isdirectory(path) == 1
+
+  if is_dir then
+    -- one slash gets stripped/normalized out, lol
+    file = file .. '//'
+  end
+
   return {
     cwd = cwd,
     path = path,
     text = file,
     file = file,
-    dir = vim.fn.isdirectory(path) == 1,
+    dir = is_dir,
   }
 end
 
@@ -45,10 +53,36 @@ function M.cd_find(picker, cwd)
   picker:find()
 end
 
+function new_file(picker, item, action)
+  local value = vim.api.nvim_buf_get_lines(picker.input.win.buf, 0, -1, false)[1]
+  local path = svim.fs.normalize(picker:dir() .. '/' .. value)
+  local is_file = value:sub(-1) ~= '/'
+  local dir = is_file and vim.fs.dirname(path) or path
+  if is_file and vim.loop.fs_stat(path) then
+    Snacks.notify.warn('File already exists:\n- `' .. path .. '`')
+    return
+  end
+  vim.fn.mkdir(dir, 'p')
+  if is_file then
+    io.open(path, 'w'):close()
+  end
+  -- Tree:open(dir)
+  -- Tree:refresh(dir)
+  -- M.update(picker, { target = path })
+  picker:find()
+end
+
 M.source = {
   finder = M.teleco,
   format = 'file',
   actions = {
+    confirm = function(picker, item, action)
+      if item == nil then
+        new_file(picker, item, action)
+      else
+        require('snacks.picker.actions').confirm(picker, item, action)
+      end
+    end,
     tabselect = function(picker, item)
       if not item then
         return
