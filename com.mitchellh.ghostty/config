@@ -1,0 +1,65 @@
+font-family = "Source Code Pro"
+keybind = cmd+shift+equal=increase_font_size:1
+
+## tmux bindings
+
+keybind = cmd+t=text:\x1c\x63
+keybind = cmd+w=text:\x1c\x77
+keybind = cmd+shift+enter=text:\x1c\x78
+
+# swap panes
+keybind = cmd+shift+9=text:\x1c\x28
+keybind = cmd+shift+0=text:\x1c\x29
+
+# move window
+keybind = cmd+period=text:\x1c\x2e
+# rename window (TODO, overlaps with ghostty)
+# keybind = cmd+shift+comma=text:\x1c\x2c
+
+keybind = cmd+0=text:\x1c\x30
+keybind = cmd+1=text:\x1c\x31
+keybind = cmd+2=text:\x1c\x32
+keybind = cmd+3=text:\x1c\x33
+keybind = cmd+4=text:\x1c\x34
+keybind = cmd+5=text:\x1c\x35
+keybind = cmd+6=text:\x1c\x36
+keybind = cmd+7=text:\x1c\x37
+keybind = cmd+8=text:\x1c\x38
+keybind = cmd+9=text:\x1c\x39
+
+keybind = cmd+shift+semicolon=text:\x1c\x3a
+keybind = cmd+equal=text:\x1c\x3d
+
+# select-layout even-horizontal
+keybind = cmd+shift+2=text:\x1c\x40
+# select-layout even-vertical
+keybind = cmd+shift+1=text:\x1c\x21
+keybind = cmd+l=text:\x1c\x6c
+
+keybind = cmd+shift+j=text:\x1c\x7d
+keybind = cmd+shift+k=text:\x1c\x7b
+keybind = cmd+shift+left_bracket=text:\x1c\x7b
+keybind = cmd+shift+right_bracket=text:\x1c\x7d
+
+keybind = cmd+j=text:\x1c\x5d
+keybind = cmd+k=text:\x1c\x5b
+keybind = cmd+left_bracket=text:\x1c\x5b
+keybind = cmd+right_bracket=text:\x1c\x5d
+
+# pane splitting
+keybind = cmd+shift+minus=text:\x1c\x5F
+keybind = cmd+shift+backslash=text:\x1c\x7c
+
+keybind = cmd+shift+l=text:\x1c\x4c
+
+keybind = cmd+p=text:\x1c\x70
+keybind = cmd+shift+p=text:\x1c\x50
+
+# attach to other session
+# keybind = cmd+a=text:\x1c\x44
+keybind = cmd+s=text:\x1c\x73
+
+keybind = cmd+d=text:\x1c\x64
+keybind = cmd+g=text:\x1c\x67
+keybind = cmd+h=text:\x1c\x68
+
