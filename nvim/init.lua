@@ -48,6 +48,8 @@ vim.opt.inccommand = 'split'
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+
 -- Diagnostic keymaps
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -782,6 +784,19 @@ require('lazy').setup({
       },
     },
   },
+
+  {
+    'kevinhwang91/nvim-ufo',
+    dependencies = { 'kevinhwang91/promise-async' },
+    config = function()
+      vim.o.foldcolumn = '0'
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+      require('ufo').setup()
+    end,
+  },
+
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
@@ -833,3 +848,14 @@ vim.api.nvim_create_autocmd({ 'TermOpen' }, {
     vim.cmd 'setlocal nonumber norelativenumber'
   end,
 })
+
+local list_snips = function()
+  local ft_list = require('luasnip').available()[vim.o.filetype]
+  local ft_snips = {}
+  for _, item in pairs(ft_list) do
+    ft_snips[item.trigger] = item.name
+  end
+  print(vim.inspect(ft_snips))
+end
+
+vim.api.nvim_create_user_command('SnipList', list_snips, {})
