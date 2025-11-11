@@ -89,6 +89,15 @@ local M = {
   dev = true,
   keys = {
     {
+      '<leader>fd',
+      function()
+        snacks.picker.files {
+          cwd = '~/code/dotfiles/',
+        }
+      end,
+      { desc = '[F]earch Neovim files' },
+    },
+    {
       '<leader>fp',
       function()
         snacks.picker.files {
@@ -116,7 +125,18 @@ local M = {
         snacks.picker.files { cwd = project_root }
       end,
     },
-    { '<leader>ss', snacks.picker.pick },
+    {
+      '<leader>ss',
+      function()
+        snacks.picker.pick 'smart'
+      end,
+    },
+    {
+      '<leader>sS',
+      function()
+        snacks.picker.pick 'pickers'
+      end,
+    },
     {
       '<leader>sp',
       function()
@@ -149,12 +169,16 @@ local M = {
           show_empty = true,
           confirm = function(picker, item)
             picker:close()
-            snacks.picker.pick('grep', item.path)
+            if item == nil then
+              -- vim.print(picker.finder.filter.pattern)
+              snacks.picker.pick 'grep'
+            else
+              snacks.picker.pick('grep', { cwd = item.path })
+            end
           end,
         })
       end,
     },
-
     {
       '<leader>pp',
       function()
@@ -172,7 +196,9 @@ local M = {
     { 'gD', snacks.picker.lsp_references },
     { 'gd', snacks.picker.lsp_definitions },
     { 'gI', snacks.picker.lsp_implementations },
-    { '<leader>ct', snacks.picker.lsp_type_definitions },
+    { '<leader>ct', snacks.picker.lsp_type_definitions, { desc = '[T]ype Definitions' } },
+    { '<leader>ci', snacks.picker.lsp_implementations, { desc = '[I]mplementations' } },
+    { '<leader>cc', snacks.picker.lsp_config, { desc = '' } },
     {
       '<leader>ds',
       function()
@@ -186,6 +212,15 @@ local M = {
     { '<leader>sj', snacks.picker.jumps },
     { '<leader>sw', snacks.picker.grep_word },
 
+    { '<leader>sgd', snacks.picker.git_diff },
+    { '<leader>sgb', snacks.picker.git_branches },
+    { '<leader>sgf', snacks.picker.git_files },
+    { '<leader>sgll', snacks.picker.git_log },
+    { '<leader>sglf', snacks.picker.git_log_file },
+    { '<leader>sgll', snacks.picker.git_log_line },
+    { '<leader>sgs', snacks.picker.git_status },
+    { '<leader>sgS', snacks.picker.git_stash },
+
     {
       '<leader>st',
       function()
@@ -196,7 +231,6 @@ local M = {
     {
       '<leader>.',
       function()
-        vim.print 'from snacks'
         local cwd = vim.fn.expand '%:p:h'
         snacks.picker.pick('teleco', { cwd = cwd })
       end,

@@ -10,6 +10,9 @@ vim.opt.showmode = false
 vim.opt.cursorline = true
 vim.opt.scrolloff = 5
 
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = ''
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -139,7 +142,7 @@ require('lazy').setup({
     opts = {
       open_no_results = false,
       keys = {
-        ['<tab>'] = 'fold_toggle',
+        -- ['<tab>'] = 'fold_toggle',
         x = '<cmd>Trouble diagnostics<cr>',
       },
       modes = {
@@ -150,6 +153,26 @@ require('lazy').setup({
     }, -- for default options, refer to the configuration section for custom setup.
     cmd = 'Trouble',
     keys = {
+      {
+        '<leader>K',
+        function()
+          -- Try symbol hover first
+          local bufnr, winid = vim.lsp.buf.hover()
+          -- If no LSP hover, fall back to diagnostics float
+          vim.defer_fn(function()
+            if not winid or not vim.api.nvim_win_is_valid(winid) then
+              vim.diagnostic.open_float(nil, { border = 'rounded' })
+            end
+          end, 50)
+        end,
+        { desc = 'Hover or diagnostic' },
+      },
+
+      {
+        '<leader>cK',
+        vim.diagnostic.open_float,
+        desc = 'Diagnostics at cursor',
+      },
       {
         '<leader>cd',
         '<cmd>Trouble diagnostics toggle<cr>',
@@ -248,7 +271,13 @@ require('lazy').setup({
     },
     config = function()
       local neogit = require 'neogit'
-      neogit.setup {}
+      neogit.setup {
+        -- integrations = { snacks = true },
+        disable_hint = true,
+        status = {
+          mode_text = {},
+        },
+      }
 
       vim.keymap.set('n', '<leader>gg', '<cmd>:Neogit<cr>', { desc = 'neogit' })
       vim.keymap.set('n', '<leader>gb', '<cmd>:Neogit branch<cr>', { desc = 'neogit' })
@@ -292,11 +321,6 @@ require('lazy').setup({
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          -- NOTE: Remember that Lua is a real programming language, and as such it is possible
-          -- to define small helper and utility functions so you don't have to repeat yourself.
-          --
-          -- In this case, we create a function that lets us more easily define mappings specific
-          -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
@@ -354,6 +378,16 @@ require('lazy').setup({
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
           end
+
+          -- vim.lsp.config('yamlls', {
+          --   settings = {
+          --     yaml = {
+          --       schemas = {
+          --         ['https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.1-standalone-strict/all.json'] = '*.yaml',
+          --       },
+          --     },
+          --   },
+          -- })
         end,
       })
 
@@ -384,21 +418,13 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
-        gopls = {},
-        pyright = {},
-        rust_analyzer = {},
-        -- nomad_lsp = {},
-        terraformls = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {},
-        --
-
+        ['helm-ls'] = {
+          yamlls = {
+            enabled = true,
+            enabledForFilesGlob = '*.{yaml,yml}',
+            path = 'yaml-language-server',
+          },
+        },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -415,29 +441,23 @@ require('lazy').setup({
         },
       }
 
-      -- Ensure the servers and tools above are installed
-      --
-      -- To check the current status of installed tools and/or manually install
-      -- other tools, you can run
-      --    :Mason
-      --
-      -- You can press `g?` for help in this menu.
-      --
-      -- `mason` had to be setup earlier: to configure its options see the
-      -- `dependencies` table for `nvim-lspconfig` above.
-      --
-      -- You can add other tools here that you want Mason to install
-      -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-        'ruff',
-        'hclfmt',
-        'goimports',
-        'terraform-ls',
-        'markdownlint',
         'astro-language-server',
+        'goimports',
+        'gopls',
+        'hclfmt',
+        'markdownlint',
+        'pyright',
+        'ruff',
+        'rust_analyzer',
+        'stylua', -- Used to format Lua code
+        'terraform-ls',
+        'terraformls',
+        'ts_ls',
+        'yamlls',
       })
+
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
@@ -683,12 +703,10 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
       local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+      statusline.setup {
+        use_icons = true,
+      }
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
@@ -698,8 +716,13 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.inactive = function()
+        if vim.g.ministatusline_disable == true or vim.b.ministatusline_disable == true then
+          return ''
+        end
+        return '%#MiniStatuslineInactive#%F%m%r%='
+      end
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -753,6 +776,7 @@ require('lazy').setup({
           ['af'] = '@function.outer',
           ['if'] = '@function.inner',
           ['ab'] = '@block.outer',
+
           -- You can optionally set descriptions to the mappings (used in the desc parameter of
           -- nvim_buf_set_keymap) which plugins like which-key display
           ['ib'] = { query = '@block.inner', desc = 'Select inner part of a class region' },
