@@ -85,6 +85,11 @@ vim.keymap.set('n', '<leader>pt', '<cmd>sp term://$SHELL<cr>', { desc = 'open a 
 vim.keymap.set('n', '<leader>pT', '<cmd>e term://$SHELL<cr>', { desc = 'open a terminal in a new split' })
 vim.keymap.set('n', '<leader>tt', '<cmd>tabnew<cr><cmd>e term://$SHELL<cr>', { desc = 'open a terminal in a new terminal' })
 
+vim.keymap.set('n', '<leader>vc', function()
+  vim.o.conceallevel = (vim.o.conceallevel + 1) % 4
+  print('set conceallevel=' .. vim.o.conceallevel)
+end)
+
 -- exit with code 1. Can be used with this function to restart nvim quickly:
 -- function nvr() {
 --     while true; do

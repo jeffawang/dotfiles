@@ -249,3 +249,5 @@ function nvr() {
         fi
     done
 }
+
+. "$HOME/.local/bin/env"
