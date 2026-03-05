@@ -8,8 +8,8 @@
 
 usage ()
 {
-	echo "$(basename "$0") <on|off>"
-	exit 1
+	echo "$(basename "$0") [on|off]"
+	exit ${1:-1}
 }
 
 args=()
@@ -17,6 +17,9 @@ opts=()
 
 while [[ $# -gt 0 ]]; do
 	case "$1" in
+		-h|--help)
+			usage 0
+			;;
 		-*)
 			opts+=("$1")
 			shift
@@ -29,22 +32,33 @@ while [[ $# -gt 0 ]]; do
 done
 
 # [[ "${#opts[@]}" -ne 0 ]] && usage
-[[ "${#args[@]}" -ne 1 ]] && usage
+[[ "${#args[@]}" -gt 1 ]] && usage
 [[ "${#opts[@]}" -ne 0 ]] && usage
 
 cmd="${args[0]}"
 
+on() {
+	set -x
+	killall caffeinate 2>/dev/null
+	nohup caffeinate -dimsu >/dev/null 2>&1 &
+	sudo pmset -c disablesleep 1
+}
+
+off() {
+	set -x
+	killall caffeinate
+	sudo pmset -c disablesleep 0
+}
+
 case "$cmd" in
-	on)
-		set -x
-		killall caffeinate 2>/dev/null
-		nohup caffeinate -dimsu >/dev/null 2>&1 &
-		sudo pmset -c disablesleep 1
+	on|off)
+		$cmd
 		;;
-	off)
-		set -x
-		killall caffeinate
-		sudo pmset -c disablesleep 0
+	"")
+		ps | grep [c]affeinate && off || on
+		;;
+	*)
+		usage
 		;;
 esac
 
