@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+####################################
+# insomnia
+# written by Jeff Wang
+# created 2026.03.05
+####################################
+
+usage ()
+{
+	echo "$(basename "$0") <on|off>"
+	exit 1
+}
+
+args=()
+opts=()
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		-*)
+			opts+=("$1")
+			shift
+			;;
+		*)
+			args+=("$1")
+			shift
+			;;
+	esac
+done
+
+# [[ "${#opts[@]}" -ne 0 ]] && usage
+[[ "${#args[@]}" -ne 1 ]] && usage
+[[ "${#opts[@]}" -ne 0 ]] && usage
+
+cmd="${args[0]}"
+
+case "$cmd" in
+	on)
+		set -x
+		killall caffeinate 2>/dev/null
+		nohup caffeinate -dimsu >/dev/null 2>&1 &
+		sudo pmset -c disablesleep 1
+		;;
+	off)
+		set -x
+		killall caffeinate
+		sudo pmset -c disablesleep 0
+		;;
+esac
+
+
