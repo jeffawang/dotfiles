@@ -27,6 +27,13 @@ keybind = cmd+7=text:\x1c\x37
 keybind = cmd+8=text:\x1c\x38
 keybind = cmd+9=text:\x1c\x39
 
+keybind = super+ctrl+h=text:\x1c\x08
+keybind = super+ctrl+j=text:\x1c\x0a
+keybind = super+ctrl+k=text:\x1c\x0b
+keybind = super+ctrl+l=text:\x1c\x0c
+
+keybind = global:super+ctrl+`=toggle_visibility
+
 keybind = cmd+shift+semicolon=text:\x1c\x3a
 keybind = cmd+equal=text:\x1c\x3d
 
