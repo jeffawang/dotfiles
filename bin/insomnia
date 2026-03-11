@@ -40,12 +40,15 @@ cmd="${args[0]}"
 on() {
 	echo "=== $cmd ==="
 	set -x
+	killall caffeinate 2>/dev/null
+	nohup caffeinate -dimsu >/dev/null 2>&1 &
 	sudo pmset -c disablesleep 1 sleep 0 displaysleep 0 disksleep 0
 }
 
 off() {
 	echo "=== $cmd ==="
 	set -x
+	killall caffeinate
 	sudo pmset -c restoredefaults
 }
 
