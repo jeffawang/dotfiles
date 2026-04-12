@@ -215,6 +215,7 @@ append_paths "$HOME/.emacs.d/bin"
 
 export VOLTUS=$HOME/code/voltus/voltus
 export PATH=$PATH:$VOLTUS/bin
+export PATH="$HOME/bin:$PATH"
 
 export PATH="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin:$PATH"
 
@@ -251,3 +252,5 @@ function nvr() {
 }
 
 . "$HOME/.local/bin/env"
+
+# eval "$(direnv hook bash)"
