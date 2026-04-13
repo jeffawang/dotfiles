@@ -1,11 +1,7 @@
-local scan = require 'plenary.scandir'
-local explorer_actions = require 'snacks.explorer.actions'
-local Path = require 'plenary.path'
-
 local M = {}
 
 function M.scandir(opts, cb)
-  return scan.scan_dir(opts.cwd, {
+  return require('plenary.scandir').scan_dir(opts.cwd, {
     add_dirs = vim.F.if_nil(opts.add_dirs, true),
     only_dirs = vim.F.if_nil(opts.only_dirs, false),
     depth = vim.F.if_nil(opts.depth, 1),
@@ -16,7 +12,7 @@ function M.scandir(opts, cb)
 end
 
 function M.transform_path(path, cwd)
-  local file = Path:new(path):make_relative(cwd)
+  local file = require('plenary.path'):new(path):make_relative(cwd)
 
   local is_dir = vim.fn.isdirectory(path) == 1
 
@@ -96,7 +92,7 @@ M.source = {
     end,
     bs = function(picker)
       if #picker.input.filter.pattern == 0 then
-        local parent = Path:new(picker.opts.cwd):parent():absolute()
+        local parent = require('plenary.path'):new(picker.opts.cwd):parent():absolute()
         M.cd_find(picker, parent)
       else
         local bs = vim.api.nvim_replace_termcodes('<bs>', true, false, true)

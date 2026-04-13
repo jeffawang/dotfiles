@@ -1,11 +1,3 @@
-local snacks = require 'snacks'
--- https://github.com/folke/snacks.nvim/blob/main/docs/picker.md
-
-local teleco = require 'custom.teleco'
-local tags = require 'custom.tags'
-
-local project = require 'projects_nvim'
-
 local picker_overrides = {
   ---comment
   ---@param opts snacks.picker.Config
@@ -78,192 +70,207 @@ local function switch_picker(picker, next_picker)
   end
   local cwd = picker.opts.cwd or vim.uv.cwd()
   picker:close()
-  snacks.picker.pick(next_picker, { cwd = cwd })
+  require('snacks').picker.pick(next_picker, { cwd = cwd })
 end
 
 ---@class snacks.picker.Config
 local M = {
   enabled = true,
   -- 'folke/snacks.nvim',
-  'jeffawang/snacks.nvim',
+  src = 'https://github.com/jeffawang/snacks.nvim',
   dev = true,
-  keys = {
-    {
-      '<leader>fd',
-      function()
-        snacks.picker.files {
-          cwd = '~/code/dotfiles/',
-        }
-      end,
-      { desc = '[F]earch Neovim files' },
-    },
-    {
-      '<leader>fp',
-      function()
-        snacks.picker.files {
-          cwd = vim.fn.stdpath 'config',
-          pattern = 'init.lua',
-        }
-      end,
-      { desc = '[F]earch Neovim files' },
-    },
-    {
-      '<leader>sn',
-      function()
-        snacks.picker.files {
-          cwd = vim.fn.stdpath 'config',
-        }
-      end,
-      { desc = '[S]earch [N]eovim files' },
-    },
+  config = function(spec)
+    local snacks = require 'snacks'
+    local teleco = require 'custom.teleco'
+    local tags = require 'custom.tags'
 
-    {
-      '<leader><space>',
-      function()
-        local cwd = vim.fn.expand '%:p:h'
-        local project_root = project.file_project_root(cwd)
-        snacks.picker.files { cwd = project_root }
-      end,
-    },
-    {
-      '<leader>ss',
-      function()
-        snacks.picker.pick 'smart'
-      end,
-    },
-    {
-      '<leader>sS',
-      function()
-        snacks.picker.pick 'pickers'
-      end,
-    },
-    {
-      '<leader>sp',
-      function()
-        local cwd = vim.fn.expand '%:p:h'
-        local project_root = project.file_project_root(cwd)
-        snacks.picker.grep {
-          cwd = project_root,
-          -- TODO: live doesn't work
-          live = true,
-          supports_live = true,
-        }
-      end,
-    },
-    {
-      '<leader>sd',
-      function()
-        snacks.picker.grep {
-          cwd = vim.fn.expand '%:p:h',
-          need_search = false,
-        }
-      end,
-    },
-    {
-      '<leader>sD',
-      function()
-        local cwd = vim.fn.expand '%:p:h'
-        snacks.picker.pick('teleco', {
-          cwd = cwd,
-          only_dirs = true,
-          show_empty = true,
-          confirm = function(picker, item)
-            picker:close()
-            if item == nil then
-              -- vim.print(picker.finder.filter.pattern)
-              snacks.picker.pick 'grep'
-            else
-              snacks.picker.pick('grep', { cwd = item.path })
-            end
-          end,
-        })
-      end,
-    },
-    {
-      '<leader>pp',
-      function()
-        snacks.picker.projects { patterns = { '.git', '_darcs', '.hg', '.bzr', '.svn' } }
-      end,
-    },
-    { '<leader>fr', snacks.picker.recent },
-    { '<leader>bb', snacks.picker.buffers },
-    { '<leader>sr', snacks.picker.resume },
-    { '<leader>sh', snacks.picker.help },
+    spec.opts.picker.sources.teleco = teleco.source
+    spec.opts.picker.sources.tags = tags.source
 
-    { '<leader>sj', snacks.picker.jumps },
-    { '<leader>sk', snacks.picker.keymaps },
+    snacks.setup(spec.opts)
+    for _, key in ipairs(spec.keys(snacks)) do
+      vim.keymap.set('n', key[1], key[2], key[3])
+    end
+  end,
+  keys = function(snacks)
+    return {
+      {
+        '<leader>fd',
+        function()
+          snacks.picker.files {
+            cwd = '~/code/dotfiles/',
+          }
+        end,
+        { desc = '[F]earch Neovim files' },
+      },
+      {
+        '<leader>fp',
+        function()
+          snacks.picker.files {
+            cwd = vim.fn.stdpath 'config',
+            pattern = 'init.lua',
+          }
+        end,
+        { desc = '[F]earch Neovim files' },
+      },
+      {
+        '<leader>sn',
+        function()
+          snacks.picker.files {
+            cwd = vim.fn.stdpath 'config',
+          }
+        end,
+        { desc = '[S]earch [N]eovim files' },
+      },
 
-    { 'gD', snacks.picker.lsp_references },
-    { 'gd', snacks.picker.lsp_definitions },
-    { 'gI', snacks.picker.lsp_implementations },
-    { '<leader>ct', snacks.picker.lsp_type_definitions, { desc = '[T]ype Definitions' } },
-    { '<leader>ci', snacks.picker.lsp_implementations, { desc = '[I]mplementations' } },
-    { '<leader>cc', snacks.picker.lsp_config, { desc = '' } },
-    {
-      '<leader>ds',
-      function()
-        snacks.picker.lsp_symbols {}
-      end,
-    },
-    { '<leader>cs', snacks.picker.lsp_workspace_symbols },
-    { '<leader>ws', snacks.picker.lsp_workspace_symbols },
+      {
+        '<leader><space>',
+        function()
+          local cwd = vim.fn.expand '%:p:h'
+          local project_root = require('projects_nvim').file_project_root(cwd)
+          snacks.picker.files { cwd = project_root }
+        end,
+      },
+      {
+        '<leader>ss',
+        function()
+          snacks.picker.pick 'smart'
+        end,
+      },
+      {
+        '<leader>sS',
+        function()
+          snacks.picker.pick 'pickers'
+        end,
+      },
+      {
+        '<leader>sp',
+        function()
+          local cwd = vim.fn.expand '%:p:h'
+          local project_root = require('projects_nvim').file_project_root(cwd)
+          snacks.picker.grep {
+            cwd = project_root,
+            -- TODO: live doesn't work
+            live = true,
+            supports_live = true,
+          }
+        end,
+      },
+      {
+        '<leader>sd',
+        function()
+          snacks.picker.grep {
+            cwd = vim.fn.expand '%:p:h',
+            need_search = false,
+          }
+        end,
+      },
+      {
+        '<leader>sD',
+        function()
+          local cwd = vim.fn.expand '%:p:h'
+          snacks.picker.pick('teleco', {
+            cwd = cwd,
+            only_dirs = true,
+            show_empty = true,
+            confirm = function(picker, item)
+              picker:close()
+              if item == nil then
+                -- vim.print(picker.finder.filter.pattern)
+                snacks.picker.pick 'grep'
+              else
+                snacks.picker.pick('grep', { cwd = item.path })
+              end
+            end,
+          })
+        end,
+      },
+      {
+        '<leader>pp',
+        function()
+          snacks.picker.projects { patterns = { '.git', '_darcs', '.hg', '.bzr', '.svn' } }
+        end,
+      },
+      { '<leader>fr', snacks.picker.recent },
+      { '<leader>bb', snacks.picker.buffers },
+      { '<leader>sr', snacks.picker.resume },
+      { '<leader>sh', snacks.picker.help },
 
-    { '<leader>sm', snacks.picker.marks },
-    { '<leader>sj', snacks.picker.jumps },
-    { '<leader>sw', snacks.picker.grep_word },
+      { '<leader>sj', snacks.picker.jumps },
+      { '<leader>sk', snacks.picker.keymaps },
 
-    { '<leader>sgd', snacks.picker.git_diff },
-    { '<leader>sgb', snacks.picker.git_branches },
-    { '<leader>sgf', snacks.picker.git_files },
-    { '<leader>sgll', snacks.picker.git_log },
-    { '<leader>sglf', snacks.picker.git_log_file },
-    { '<leader>sgll', snacks.picker.git_log_line },
-    { '<leader>sgs', snacks.picker.git_status },
-    { '<leader>sgS', snacks.picker.git_stash },
+      { 'gD', snacks.picker.lsp_references },
+      { 'gd', snacks.picker.lsp_definitions },
+      { 'gI', snacks.picker.lsp_implementations },
+      { '<leader>ct', snacks.picker.lsp_type_definitions, { desc = '[T]ype Definitions' } },
+      { '<leader>ci', snacks.picker.lsp_implementations, { desc = '[I]mplementations' } },
+      { '<leader>cc', snacks.picker.lsp_config, { desc = '' } },
+      {
+        '<leader>ds',
+        function()
+          snacks.picker.lsp_symbols {}
+        end,
+      },
+      { '<leader>cs', snacks.picker.lsp_workspace_symbols },
+      { '<leader>ws', snacks.picker.lsp_workspace_symbols },
 
-    {
-      '<leader>st',
-      function()
-        snacks.picker.pick('tags', {})
-      end,
-    },
+      { '<leader>sm', snacks.picker.marks },
+      { '<leader>sj', snacks.picker.jumps },
+      { '<leader>sw', snacks.picker.grep_word },
 
-    {
-      '<leader>.',
-      function()
-        local cwd = vim.fn.expand '%:p:h'
-        snacks.picker.pick('teleco', { cwd = cwd })
-      end,
-    },
+      { '<leader>sgd', snacks.picker.git_diff },
+      { '<leader>sgb', snacks.picker.git_branches },
+      { '<leader>sgf', snacks.picker.git_files },
+      { '<leader>sgll', snacks.picker.git_log },
+      { '<leader>sglf', snacks.picker.git_log_file },
+      { '<leader>sgll', snacks.picker.git_log_line },
+      { '<leader>sgs', snacks.picker.git_status },
+      { '<leader>sgS', snacks.picker.git_stash },
 
-    {
-      '<leader>/',
-      snacks.picker.grep_buffers,
-    },
+      {
+        '<leader>st',
+        function()
+          snacks.picker.pick('tags', {})
+        end,
+      },
 
-    {
-      '<leader>gs',
-      function()
-        snacks.picker.explorer {
-          tree = true,
-          finder = 'git_status',
-          format = 'git_status',
-        }
-      end,
-    },
+      {
+        '<leader>.',
+        function()
+          local cwd = vim.fn.expand '%:p:h'
+          snacks.picker.pick('teleco', { cwd = cwd })
+        end,
+      },
 
-    {
-      '\\',
-      function()
-        local current_pickers = Snacks.picker.get { source = 'explorer' }
-        if #current_pickers > 0 then
-          current_pickers[1].list.win:focus()
-        else
-          snacks.picker.explorer()
-        end
-      end,
-    },
-  },
+      {
+        '<leader>/',
+        snacks.picker.grep_buffers,
+      },
+
+      {
+        '<leader>gs',
+        function()
+          snacks.picker.explorer {
+            tree = true,
+            finder = 'git_status',
+            format = 'git_status',
+          }
+        end,
+      },
+
+      {
+        '\\',
+        function()
+          local current_pickers = require('snacks').picker.get { source = 'explorer' }
+          if #current_pickers > 0 then
+            current_pickers[1].list.win:focus()
+          else
+            snacks.picker.explorer()
+          end
+        end,
+      },
+    }
+  end,
   opts = {
     picker = {
       config = apply_picker_overrides,
@@ -291,7 +298,7 @@ local M = {
           local cwd = picker.opts.cwd or vim.uv.cwd()
 
           picker:close()
-          snacks.picker.pick(next, { cwd = cwd })
+          require('snacks').picker.pick(next, { cwd = cwd })
         end,
       },
       win = {
@@ -317,8 +324,6 @@ local M = {
         },
       },
       sources = {
-        teleco = teleco.source,
-        tags = tags.source,
         lsp_symbols = {
           filter = {
             default = {
