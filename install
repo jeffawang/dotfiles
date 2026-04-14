@@ -18,7 +18,7 @@ main() {
     for rc in *rc *profile tmux.conf vim tmux; do
       [ -L ~/.$rc ] && rm ~/.$rc
       [ -e ~/.$rc ] && mv -v ~/.$rc bak/.$rc
-      ln -sfv $base/$rc ~/.$rc
+      ln -snfv $base/$rc ~/.$rc
     done
 
     # Make the directory structure I like
@@ -27,15 +27,18 @@ main() {
     done
 
     for i in bin/*; do
-      ln -sfv $base/${i} ~/${i}
+      ln -snfv $base/${i} ~/${i}
     done
 
     for i in nvim; do
-      ln -sfv $base/${i} ~/.config/
+      ln -snfv $base/${i} ~/.config/
     done
 
-    # Homebrew
+    # MacOS
     if [ $(uname -s) = 'Darwin' ]; then
+
+      ln -snfv $base/ghostty "$HOME/Library/Application Support/com.mitchellh.ghostty"
+
       # rev from 2026-04-14
       rev=e03d55ac120da75d8a03c207cbd9a17d89f3b04b
       [ -z "$(which brew)" ] &&
