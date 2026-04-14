@@ -7,9 +7,8 @@
 # Display commands as they are run
 
 main() {
-    base=$(realpath $(dirname ${BASH_SOURCE[0]}))
+    base=$(pwd)
     echo base: $base
-    cd "$base"
 
     # git submodule init
     # git submodule update
@@ -23,7 +22,7 @@ main() {
     done
 
     # Make the directory structure I like
-    for i in files code bin; do
+    for i in files code bin .bash; do
       mkdir -pv ~/${i}
     done
 
@@ -37,16 +36,14 @@ main() {
 
     # Homebrew
     if [ $(uname -s) = 'Darwin' ]; then
+      # rev from 2026-04-14
+      rev=e03d55ac120da75d8a03c207cbd9a17d89f3b04b
       [ -z "$(which brew)" ] &&
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/${rev}/install)"
 
-      # brew tap Homebrew/bundle
       brew bundle
     fi
 }
 
-# Remember where we started, but cd to the script's directory
-original_dir=$(pwd)
-cd $(dirname $BASH_SOURCE)
+cd "$(dirname "$BASH_SOURCE")"
 main
-cd $original_dir

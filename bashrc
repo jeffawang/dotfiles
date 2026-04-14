@@ -218,13 +218,10 @@ export PATH=$PATH:$VOLTUS/bin
 
 export PATH="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin:$PATH"
 
-. "/opt/homebrew/opt/asdf/libexec/asdf.sh"
 
 # . "/opt/homebrew/opt/asdf/etc/bash_completion.d/asdf.bash"
 
-. "$HOME/.cargo/env"
 
-export PATH="$PATH:$HOME/.cargo/bin"
 
 # Commented out because it kills the shell with ctrl-c... 
 # eval "$(direnv hook bash)"
@@ -238,9 +235,6 @@ if [[ -n "$NVIM" ]]; then
   }
 fi
 
-. ~/.bash/voltus.sh
-. ~/.bash/goenv.sh
-
 function nvr() {
     while true; do
         nvim "$@"
@@ -250,4 +244,12 @@ function nvr() {
     done
 }
 
-. "$HOME/.local/bin/env"
+function src() {
+  [[ -r "$1" ]] && . "$1"
+}
+
+src ~/.cargo/env
+src ~/.orbstack/shell/init.bash
+
+# local file not committed
+src ~/.bash/local.sh
