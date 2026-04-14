@@ -22,7 +22,7 @@ main() {
     done
 
     # Make the directory structure I like
-    for i in files code bin .bash; do
+    for i in files code bin .bash .config; do
       mkdir -pv ~/${i}
     done
 
@@ -31,7 +31,7 @@ main() {
     done
 
     for i in nvim; do
-      ln -sfv $base/${i} ~/.config/"${i}"
+      ln -sfv $base/${i} ~/.config/
     done
 
     # Homebrew
