@@ -48,6 +48,10 @@ return {
         status = {
           mode_text = {},
         },
+        kind = 'vsplit',
+        -- integrations = {
+        --   snacks = false,
+        -- },
       }
     end,
     keys = {
@@ -852,8 +856,8 @@ return {
         -- map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
         -- map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
         -- map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
-        map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
-        -- map('n', '<leader>hD', function()
+        -- map('n', '<leader>gd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
+        -- map('n', '<leader>gD', function()
         --   gitsigns.diffthis '@'
         -- end, { desc = 'git [D]iff against last commit' })
         -- -- Toggles
