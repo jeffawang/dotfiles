@@ -71,3 +71,5 @@ keybind = cmd+g=text:\x1c\x67
 keybind = cmd+h=text:\x1c\x68
 
 clipboard-paste-bracketed-safe = true
+
+custom-shader = shaders/cursor_smear_original.glsl
