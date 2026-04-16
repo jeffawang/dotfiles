@@ -45,11 +45,8 @@ vim.diagnostic.config {
   jump = { float = true },
 }
 
-do
-  local plugins = require 'plugins'
-  plugins.add_all()
-  plugins.setup_all()
-end
+-- pack add and setup plugins
+require 'plugins'
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')

@@ -1,21 +1,16 @@
-local M = {}
+vim.pack.add {
+  'https://github.com/nvim-lua/plenary.nvim',
+}
+
+require 'plugins.snacks'
+require 'plugins.ui'
+require 'plugins.git'
+require 'plugins.orgmode'
+require 'plugins.neotree'
 
 local plugins = require 'plugins.plugins'
 
-M.add_all = function()
-  for i = #plugins, 1, -1 do
-    if plugins[i].enabled == false then
-      table.remove(plugins, i)
-    end
-  end
-  vim.pack.add(plugins, { load = true })
-end
-
-M.setup_all = function()
-  for _, spec in ipairs(plugins) do
-    M.setup(spec)
-  end
-end
+vim.pack.add(plugins, { load = true })
 
 function GetArgs(func)
   local args = {}
@@ -25,7 +20,6 @@ function GetArgs(func)
   return args
 end
 
--- dependency injection by name
 function ArgsFor(spec, func)
   local args = {}
   for i, arg in ipairs(GetArgs(func)) do
@@ -45,7 +39,7 @@ function ArgsFor(spec, func)
   return args
 end
 
-M.setup = function(spec)
+for _, spec in ipairs(plugins) do
   if spec.config then
     local args = ArgsFor(spec, spec.config)
     spec.config(unpack(args))
@@ -63,5 +57,3 @@ M.setup = function(spec)
     end
   end
 end
-
-return M
