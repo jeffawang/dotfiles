@@ -6,13 +6,25 @@ vim.pack.add {
   'https://github.com/akinsho/bufferline.nvim',
   'https://github.com/nvim-mini/mini.statusline',
   'https://github.com/jeffawang/project.nvim',
+  'https://github.com/folke/todo-comments.nvim',
+  'https://github.com/szw/vim-maximizer',
+
+  'https://github.com/kevinhwang91/promise-async',
+  'https://github.com/kevinhwang91/nvim-ufo',
 }
 
 vim.cmd.colorscheme 'tokyonight-night'
 vim.cmd.hi 'Comment gui=none'
-
-require('smear_cursor').setup()
 require('bufferline').setup { options = { mode = 'tabs', separator_style = 'slant' } }
+require('todo-comments').setup { signs = false }
+require('smear_cursor').setup()
+
+require('ufo').setup()
+vim.o.foldcolumn = '0'
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
 require('projects_nvim').setup { manual_mode = false }
 
 s = require 'mini.statusline'
@@ -74,3 +86,5 @@ require('which-key').setup {
     { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
   },
 }
+
+vim.keymap.set('n', '<C-w>m', '<cmd>MaximizerToggle<cr>', { desc = 'toggle maximized split' })

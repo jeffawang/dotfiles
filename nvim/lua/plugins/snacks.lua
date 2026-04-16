@@ -266,47 +266,36 @@ local keys = {
   {
     ' \\g',
     function()
-      local current_pickers = snacks.picker.get { source = 'explorer' }
-      if #current_pickers > 0 then
-        current_pickers[1].list.win:focus()
-      else
-        snacks.picker.explorer {
-          title = 'ASDF',
-          finder = GitExplorer,
-          live = true,
-          watch = true,
-          git_untracked = true,
-          diagnostics = true,
-          layout = {
-            preset = 'sidebar',
-            preview = false,
-            hidden = { 'input' },
-          },
-        }
-      end
+      -- local current_pickers = snacks.picker.get { source = 'explorer' }
+      -- if #current_pickers > 0 then
+      --   current_pickers[1].list.win:focus()
+      -- else
+      snacks.picker.explorer {
+        title = 'Git Changes',
+        finder = GitExplorer,
+        live = true,
+        watch = true,
+        git_untracked = true,
+        diagnostics = true,
+        layout = {
+          preset = 'sidebar',
+          preview = false,
+          hidden = { 'input' },
+        },
+      }
+      -- end
     end,
   },
 
   {
     '\\',
     function()
-      local current_pickers = snacks.picker.get { source = 'explorer' }
-      if #current_pickers > 0 then
-        current_pickers[1].list.win:focus()
-      else
-        snacks.picker.explorer()
-      end
-    end,
-  },
-
-  {
-    '5',
-    function()
-      for _, win in ipairs(vim.api.nvim_list_wins()) do
-        local buf = vim.api.nvim_win_get_buf(win)
-        local name = vim.api.nvim_buf_get_name(buf)
-        print(win, name)
-      end
+      -- local current_pickers = snacks.picker.get { source = 'explorer' }
+      -- if #current_pickers > 0 then
+      --   current_pickers[1].list.win:focus()
+      -- else
+      snacks.picker.explorer()
+      -- end
     end,
   },
 }
@@ -332,7 +321,6 @@ function GitExplorer(opts, ctx)
     if state_on_find then
       state_on_find()
     end
-    vim.print(1)
     Tree:walk(Tree:find(ctx.picker:cwd()), function(node)
       if node.dir then
         node.open = true

@@ -45,8 +45,14 @@ vim.diagnostic.config {
   jump = { float = true },
 }
 
--- pack add and setup plugins
-require 'plugins'
+require 'plugins.ui'
+require 'plugins.snacks'
+require 'plugins.neotree'
+require 'plugins.git'
+require 'plugins.orgmode'
+require 'plugins.lsp'
+require 'plugins.cmp'
+require 'plugins.code'
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -75,9 +81,6 @@ vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'yank to end of line into the s
 vim.keymap.set('n', '<leader>tc', '<cmd>tabnew<cr>', { desc = 'create new tab' })
 vim.keymap.set('n', '<leader>tx', '<cmd>tabclose<cr>', { desc = 'close current tab' })
 vim.keymap.set('n', '<leader>tf', '<cmd>tabnew %<cr>', { desc = 'open current buffer in new tab' })
-
--- TODO:
-vim.keymap.set('n', '<C-w>m', '<cmd>MaximizerToggle<cr>', { desc = 'toggle maximized split' })
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 vim.keymap.set('n', '<leader>oT', '<cmd>e term://%:p:h//$SHELL<cr>', { desc = 'open a terminal in the current window' })
