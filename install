@@ -37,7 +37,7 @@ main() {
     # MacOS
     if [ $(uname -s) = 'Darwin' ]; then
 
-      ln -snfv $base/ghostty "$HOME/Library/Application Support/com.mitchellh.ghostty"
+      ln -snFfv $base/ghostty "$HOME/Library/Application Support/com.mitchellh.ghostty"
 
       # rev from 2026-04-14
       rev=e03d55ac120da75d8a03c207cbd9a17d89f3b04b
