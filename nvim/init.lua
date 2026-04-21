@@ -53,6 +53,7 @@ require 'plugins.orgmode'
 require 'plugins.lsp'
 require 'plugins.cmp'
 require 'plugins.code'
+require 'plugins.treesitter'
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')

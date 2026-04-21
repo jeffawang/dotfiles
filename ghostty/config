@@ -84,3 +84,6 @@ keybind = cmd+h=text:\x1c\x68
 clipboard-paste-bracketed-safe = true
 
 # custom-shader = shaders/cursor_smear_original.glsl
+
+mouse-shift-capture = false
+# mouse-reporting = true

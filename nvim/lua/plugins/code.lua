@@ -46,7 +46,7 @@ local keys = {
         if not winid or not vim.api.nvim_win_is_valid(winid) then
           vim.diagnostic.open_float(nil, { border = 'rounded' })
         end
-      end, 50)
+      end, 100)
     end,
     { desc = 'Hover or diagnostic' },
   },

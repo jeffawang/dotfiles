@@ -142,7 +142,8 @@
     },
     "smear-cursor.nvim": {
       "rev": "abd7c87294c82c5e4376d640ade80cd66deb52e4",
-      "src": "https://github.com/folke/smear-cursor.nvim"
+      "src": "https://github.com/folke/smear-cursor.nvim",
+      "version": "'66b4e9ea6773debc78073b6d41c7c0cf5c0ad954'"
     },
     "snacks.nvim": {
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",

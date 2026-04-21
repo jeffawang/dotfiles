@@ -47,11 +47,23 @@ snacks.setup {
       end,
     },
     win = {
-      keys = {
-        ['<leader>/'] = { 'grepswitch', mode = { 'n' } },
-        ['<leader><space>'] = { 'filesswitch', mode = { 'n' } },
-        ['<leader>.'] = { 'telecoswitch', mode = { 'n' } },
-        ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
+      input = {
+        keys = {
+          ['A'] = { 'grepswitch', mode = { 'n' } },
+          ['<leader>/'] = { 'grepswitch', mode = { 'n' } },
+          ['<leader><space>'] = { 'filesswitch', mode = { 'n' } },
+          ['<leader>.'] = { 'telecoswitch', mode = { 'n' } },
+          ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
+        },
+      },
+      list = {
+        keys = {
+          ['A'] = { 'grepswitch', mode = { 'n' } },
+          ['<leader>/'] = { 'grepswitch', mode = { 'n' } },
+          ['<leader><space>'] = { 'filesswitch', mode = { 'n' } },
+          ['<leader>.'] = { 'telecoswitch', mode = { 'n' } },
+          ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
+        },
       },
     },
     sources = {
@@ -72,7 +84,6 @@ snacks.setup {
               ['<C-j>'] = false,
               ['<C-k>'] = false,
               ['/'] = false,
-              ['<A-/>'] = 'toggle_focus', -- go to the
             },
           },
           input = { keys = { ['\\'] = 'previous_window' } },

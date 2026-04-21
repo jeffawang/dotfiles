@@ -71,6 +71,9 @@ end
 M.source = {
   finder = M.teleco,
   format = 'file',
+  config = function(opts)
+    return Snacks.config.merge(opts, {})
+  end,
   actions = {
     confirm = function(picker, item, action)
       if item == nil then
@@ -101,6 +104,9 @@ M.source = {
     end,
   },
   win = {
+    keys = {
+      -- ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
+    },
     input = {
       keys = {
         ['<tab>'] = {

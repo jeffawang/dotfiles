@@ -9,6 +9,7 @@ vim.pack.add {
 }
 
 local lsps = {
+  ['zls'] = true,
   ['astro-language-server'] = true,
   ['goimports'] = true,
   ['gopls'] = true,

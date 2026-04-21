@@ -1,5 +1,5 @@
 vim.pack.add {
-  'https://github.com/folke/smear-cursor.nvim',
+  { src = 'https://github.com/folke/smear-cursor.nvim', version = '66b4e9ea6773debc78073b6d41c7c0cf5c0ad954' },
   'https://github.com/folke/tokyonight.nvim',
   'https://github.com/nvim-tree/nvim-web-devicons',
   'https://github.com/folke/which-key.nvim',
@@ -17,7 +17,10 @@ vim.cmd.colorscheme 'tokyonight-night'
 vim.cmd.hi 'Comment gui=none'
 require('bufferline').setup { options = { mode = 'tabs', separator_style = 'slant' } }
 require('todo-comments').setup { signs = false }
-require('smear_cursor').setup()
+require('smear_cursor').setup {
+  hide_target_hack = false,
+  dont_erase = false,
+}
 
 require('ufo').setup()
 vim.o.foldcolumn = '0'
