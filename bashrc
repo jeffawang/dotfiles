@@ -110,9 +110,9 @@ alias rtfm=man
 alias please=sudo
 alias fucking=sudo
 
-if which tofu; then
+if which tofu >/dev/null; then
 	alias tf=tofu
-elif which terraform; then
+elif which terraform >/dev/null; then
 	alias tf=terraform
 fi
 
@@ -173,12 +173,12 @@ CODEPATH="$HOME/code"
 QCODE="$CODEPATH"
 
 # local file not committed. Can override QCODE
-src ~/.bash/local.sh
+[[ -r ~/.bash/local.sh ]] && . ~/.bash/local.sh
 
-alias qcd='cd $QCODE'
-alias dcd='cd $CODEPATH/dotfiles'
-alias scd='cd $CODEPATH/scratch'
-alias gcd='cd $CODEPATH/github'
+alias qcd="cd $QCODE"
+alias dcd="cd $CODEPATH/dotfiles"
+alias scd="cd $CODEPATH/scratch"
+alias gcd="cd $CODEPATH/github"
 
 # Commented out because it kills the shell with ctrl-c...
 # eval "$(direnv hook bash)"
