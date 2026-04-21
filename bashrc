@@ -71,57 +71,6 @@ function __set_prompt_ubuntu() {
     PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 }
 
-
-function viw() {
-    vim `which $1`
-}
-
-function vd() {
-    [ "$1" ] && cd *$1*
-}
-
-function repeat() {
-    if [ "$1" -eq "$1" ]; then
-        while [ -n "$2" ]; do
-            eval "$2"
-            sleep $1
-        done
-    fi
-}
-
-pssh() {
-    # Only supports -l and -A ssh options!
-    TEMP=`getopt -o ":l:A" -- "$@"`
-
-    local OPTIND o ssh_cmd ssh_count P_PATH
-
-    ssh_cmd="ssh"
-
-    eval set -- "$TEMP"
-    while true; do
-        case "$1" in
-            -- ) shift; break ;;
-            * )
-                ssh_cmd="${ssh_cmd} $1"
-                shift
-                ;;
-        esac
-    done
-
-    ssh_count=$(wc -w <<< "$@")
-
-    tmux new-window "${ssh_cmd} $1"
-    tmux rename-window "pssh (${ssh_count})"
-    shift
-    while [ $# -gt 0 ]; do
-        tmux split-window "${ssh_cmd} $1"
-        tmux select-layout tiled > /dev/null
-        shift
-    done
-    tmux select-layout tiled > /dev/null
-    tmux set-window-option synchronize-panes on > /dev/null
-}
-
 # ls aliases
 ls --color=auto >/dev/null 2>&1
 if [[ $? != 0 ]]; then
@@ -142,6 +91,9 @@ case $(uname -s) in
     ;;
 esac
 
+HISTSIZE=10000
+SAVEHIST=10000
+
 # git aliases
 alias gco='git checkout'
 alias gst='git status'
@@ -154,22 +106,15 @@ alias gb='git branch'
 alias gl='git log'
 alias rtfm=man
 
-function venv() {
-    [ -d ./venv ] || virtualenv venv
-    . ./venv/bin/activate
-    if [[ -n "$1" ]]; then
-       pip install -r $1
-    fi
-}
-
 # sudo aliases
 alias please=sudo
 alias fucking=sudo
 
-alias tf=terraform
-
-HISTSIZE=10000
-SAVEHIST=10000
+if which tofu; then
+	alias tf=tofu
+elif which terraform; then
+	alias tf=terraform
+fi
 
 export EDITOR=vim
 export PAGER=less
@@ -183,48 +128,8 @@ then
 fi
 
 
-function append_paths() {
-    local i
-    for i in "$@"; do
-        [[ -d "$i" ]] && export PATH="$PATH:$i" || true
-    done
-}
-
-CODEPATH="$HOME/code/voltus"
-alias qcd="cd $CODEPATH/voltus"
-
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOBIN
-
-if uname -a | grep -q Microsoft; then
-    export LS_COLORS='ow=01;36;40'
-    export DOCKER_HOST=tcp://0.0.0.0:2375
-fi
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
-export BASH_SILENCE_DEPRECATION_WARNING=1
-
-# Additions
-
 # turn off XON/XOFF for C-s forward history search
 stty -ixon
-
-# alias aws='aws-vault exec voltus -- /usr/local/bin/aws'
-append_paths "$HOME/.emacs.d/bin"
-
-export VOLTUS=$HOME/code/voltus/voltus
-export PATH=$PATH:$VOLTUS/bin
-
-export PATH="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin:$PATH"
-
-
-# . "/opt/homebrew/opt/asdf/etc/bash_completion.d/asdf.bash"
-
-
-
-# Commented out because it kills the shell with ctrl-c... 
-# eval "$(direnv hook bash)"
 
 if [[ -n "$NVIM" ]]; then
   function nvo() {
@@ -244,12 +149,36 @@ function nvr() {
     done
 }
 
-function src() {
-  [[ -r "$1" ]] && . "$1"
+function append_paths() {
+    local i
+    for i in "$@"; do
+        [[ -d "$i" ]] && export PATH="$PATH:$i" || true
+    done
 }
 
-src ~/.cargo/env
-src ~/.orbstack/shell/init.bash
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
-# local file not committed
+append_paths "$HOME/bin"
+
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+append_paths "$PATH:$GOBIN"
+
+for envfile in ~/.cargo/env ~/.orbstack/shell/init.bash; do
+	[[ -r "$envfile" ]] && . "$envfile"
+done
+
+CODEPATH="$HOME/code"
+QCODE="$CODEPATH"
+
+# local file not committed. Can override QCODE
 src ~/.bash/local.sh
+
+alias qcd='cd $QCODE'
+alias dcd='cd $CODEPATH/dotfiles'
+alias scd='cd $CODEPATH/scratch'
+alias gcd='cd $CODEPATH/github'
+
+# Commented out because it kills the shell with ctrl-c...
+# eval "$(direnv hook bash)"
