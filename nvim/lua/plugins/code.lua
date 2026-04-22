@@ -34,44 +34,6 @@ require('lazydev').setup {
   },
 }
 
-local keys = {
-  -- trouble
-  {
-    '<leader>K',
-    function()
-      -- Try symbol hover first
-      local _, winid = vim.lsp.buf.hover()
-      -- If no LSP hover, fall back to diagnostics float
-      vim.defer_fn(function()
-        if not winid or not vim.api.nvim_win_is_valid(winid) then
-          vim.diagnostic.open_float(nil, { border = 'rounded' })
-        end
-      end, 100)
-    end,
-    { desc = 'Hover or diagnostic' },
-  },
-  { '<leader>cK', vim.diagnostic.open_float, desc = 'Diagnostics at cursor' },
-  { '<leader>cd', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Diagnostics (Trouble)' },
-  { '<leader>cD', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', desc = 'Buffer Diagnostics (Trouble)' },
-  { '<leader>cS', '<cmd>Trouble symbols toggle focus=true<cr>', desc = 'Symbols (Trouble)' },
-  { '<leader>cl', '<cmd>Trouble lsp toggle focus=false open_no_results=true<cr>', desc = 'LSP Definitions / references / ... (Trouble)' },
-  { '<leader>xL', '<cmd>Trouble loclist toggle<cr>', desc = 'Location List (Trouble)' },
-  { '<leader>xQ', '<cmd>Trouble qflist toggle<cr>', desc = 'Quickfix List (Trouble)' },
-
-  -- conform
-  {
-    '<leader>df',
-    function()
-      require('conform').format { async = true, lsp_format = 'fallback' }
-    end,
-    desc = '[F]ormat buffer',
-  },
-}
-
-for _, key in pairs(keys) do
-  vim.keymap.set('n', key[1], key[2], key[3])
-end
-
 --   event = { 'BufWritePre' },
 require('conform').setup {
   notify_on_error = false,
@@ -114,3 +76,45 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
     end
   end,
 })
+
+for _, key in pairs {
+  -- trouble
+  {
+    'K',
+    function()
+      local _, winid = vim.lsp.buf.hover()
+      -- If no LSP hover, fall back to diagnostics float
+      vim.defer_fn(function()
+        if not winid or not vim.api.nvim_win_is_valid(winid) then
+          vim.diagnostic.open_float(nil)
+        end
+      end, 100)
+    end,
+  },
+  {
+    '<leader>K',
+    function()
+      vim.diagnostic.open_float()
+      -- local _, winid = vim.lsp.buf.hover()
+    end,
+    { desc = 'Hover or diagnostic' },
+  },
+  { '<leader>cK', vim.diagnostic.open_float, desc = 'Diagnostics at cursor' },
+  { '<leader>cd', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Diagnostics (Trouble)' },
+  { '<leader>cD', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', desc = 'Buffer Diagnostics (Trouble)' },
+  { '<leader>cS', '<cmd>Trouble symbols toggle focus=true<cr>', desc = 'Symbols (Trouble)' },
+  { '<leader>cl', '<cmd>Trouble lsp toggle focus=false open_no_results=true<cr>', desc = 'LSP Definitions / references / ... (Trouble)' },
+  { '<leader>xL', '<cmd>Trouble loclist toggle<cr>', desc = 'Location List (Trouble)' },
+  { '<leader>xQ', '<cmd>Trouble qflist toggle<cr>', desc = 'Quickfix List (Trouble)' },
+
+  -- conform
+  {
+    '<leader>df',
+    function()
+      require('conform').format { async = true, lsp_format = 'fallback' }
+    end,
+    desc = '[F]ormat buffer',
+  },
+} do
+  vim.keymap.set('n', key[1], key[2], key[3])
+end
