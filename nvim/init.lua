@@ -97,7 +97,11 @@ vim.keymap.set('n', '<leader>vc', function()
   print('set conceallevel=' .. vim.o.conceallevel)
 end)
 
-vim.keymap.set('n', '<leader>qr', '<cmd>cq 1<cr>')
+vim.keymap.set('n', '<leader>qr', function()
+  local session = vim.fn.stdpath 'state' .. '/restart_session.vim'
+  vim.cmd('mksession! ' .. vim.fn.fnameescape(session))
+  vim.cmd('restart source ' .. vim.fn.fnameescape(session))
+end, { desc = 'Restart Neovim' })
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {
