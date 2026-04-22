@@ -80,18 +80,6 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
 for _, key in pairs {
   -- trouble
   {
-    'K',
-    function()
-      local _, winid = vim.lsp.buf.hover()
-      -- If no LSP hover, fall back to diagnostics float
-      vim.defer_fn(function()
-        if not winid or not vim.api.nvim_win_is_valid(winid) then
-          vim.diagnostic.open_float(nil)
-        end
-      end, 100)
-    end,
-  },
-  {
     '<leader>K',
     function()
       vim.diagnostic.open_float()

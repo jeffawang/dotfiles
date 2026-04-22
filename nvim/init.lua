@@ -35,6 +35,8 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 vim.opt.inccommand = 'split'
+vim.o.swapfile = false
+vim.o.autochdir = true
 
 -- NEW
 --
