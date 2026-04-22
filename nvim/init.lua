@@ -74,8 +74,14 @@ vim.keymap.set('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open diag
 
 vim.keymap.set({ 'i', 'n' }, '<C-j>', '<C-w>w', { desc = 'Move focus to the next window' })
 vim.keymap.set({ 'i', 'n' }, '<C-k>', '<C-w>W', { desc = 'Move focus to the previous window' })
-vim.keymap.set('n', '<C-S-J>', '<cmd>tabn<cr>', { desc = 'Move focus to the next tab' })
-vim.keymap.set('n', '<C-S-K>', '<cmd>tabp<cr>', { desc = 'Move focus to the previous tab' })
+
+-- move line(s) up and down
+vim.keymap.set('n', '<A-j>', "<cmd>execute 'move .+' . v:count1<cr>==", { desc = 'Move Down' })
+vim.keymap.set('n', '<A-k>', "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = 'Move Up' })
+vim.keymap.set('i', '<A-j>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move Down' })
+vim.keymap.set('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move Up' })
+vim.keymap.set('v', '<A-j>', ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = 'Move Down' })
+vim.keymap.set('v', '<A-k>', ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = 'Move Up' })
 
 vim.keymap.set('n', '<leader>y', '"+y', { desc = 'yank into the system clipboard' })
 vim.keymap.set('v', '<leader>y', '"+y', { desc = 'yank into the system clipboard' })
